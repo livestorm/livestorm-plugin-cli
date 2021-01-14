@@ -1,0 +1,14 @@
+{
+  "name": "livestorm-plugin-cli",
+  "version": "0.0.1",
+  "description": "CLI that allows you to build and deploy your Livestorm plugin",
+  "main": "index.js",
+  "bin": {
+    "livestorm": "index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
