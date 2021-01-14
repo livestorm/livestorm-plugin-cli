@@ -9,7 +9,7 @@ yarn add global git+ssh://git@github.com/livestorm/livestorm-plugin-cli.git
 ```
 
 
-Then run : 
+Then, to get the list of available commands, run :
 ```
 livestorm help
 ```
