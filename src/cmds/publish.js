@@ -4,19 +4,19 @@ const fetch = require('node-fetch')
 function getLivestormPluginInformation() {
   const json = require(`${process.cwd()}/package.json`)
   if (!json.livestorm) throw 'Not a livestorm plugin'
+  console.log(`Livestorm plugin ${json.name} in version ${json.version} detected`)
   return json
 }
 
 function sendToLivestormAPI(json, fileContent) {
+  console.log(`Sending plugin to ${json.livestorm.endpoint}`)
+  
+  const data = Buffer.from(fileContent).toString('base64')
+
   fetch(`${json.livestorm.endpoint}/api/v1/plugins`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'Application/JSON'
-    },
-    body: {
-      ...json.livestorm,
-      data: Buffer.from(fileContent).toString('base64')
-    }
+    headers: { 'Content-Type': 'Application/JSON' },
+    body: { ...json.livestorm, data }
   })
     .then(handleResponse)
     .catch(() => handleNetworkError(json))
@@ -31,22 +31,16 @@ function handleResponse({ status }) {
 }
 
 function handleNetworkError(json) {
-  console.log(`Failed to send plugin to ${json.livestorm.endpoint}`)
+  console.log(`Failed to send plugin to ${json.livestorm.endpoint}.`)
+  console.log('Make sure your internet connection is working and check https://status.livestorm.co/')
 }
 
 module.exports = function publish() {
   try {
-    const json = getLivestormPluginInformation()
-
-    console.log(`Livestorm plugin ${json.name} in version ${json.version} detected`)
-    console.log(`Bundling plugin...`)
-
-    const fileContent = build()
-    
-    console.log(`Bundling done`)
-    console.log(`Sending plugin to ${json.livestorm.endpoint}`)
-
-    sendToLivestormAPI(json, fileContent)
+    sendToLivestormAPI(
+      getLivestormPluginInformation(),
+      build()
+    )
   } catch(err) {
     console.log(err)
     console.log('Are you sure directory is a valid Livestorm plugin ?')
