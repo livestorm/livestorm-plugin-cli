@@ -1,7 +1,7 @@
 Livestorm plugin CLI
 ---
 
-This project is a CLI that allows you to push your livestorm plugin
+This project is a CLI that allows you to create, publish and manage your livestorm plugins
 
 To install simply : 
 ```
