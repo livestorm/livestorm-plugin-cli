@@ -1,11 +1,19 @@
 const build = require('./build')
 const fetch = require('node-fetch')
+const getLivestormPluginInformation = require('../helpers/getLivestormPluginInformation')
 
-function getLivestormPluginInformation() {
-  const json = require(`${process.cwd()}/package.json`)
-  if (!json.livestorm) throw 'Not a livestorm plugin'
-  console.log(`Livestorm plugin ${json.name} in version ${json.version} detected`)
-  return json
+function setLocalProxyIfNeeded(config) {
+  if (config.endpoint.includes('app.livestorm.local')) {
+    return 'http://localhost:4000'
+  }
+}
+
+function setLocalHostIfNeeded(config) {
+  if (config.endpoint.includes('app.livestorm.local')) {
+    return { 'Host': 'app.livestorm.local' }
+  } else {
+    return {}
+  }
 }
 
 function sendToLivestormAPI(json, fileContent) {
@@ -13,24 +21,29 @@ function sendToLivestormAPI(json, fileContent) {
   
   const data = Buffer.from(fileContent).toString('base64')
 
-  fetch(`${json.livestorm.endpoint}/api/v1/plugins`, {
+  fetch(`${setLocalProxyIfNeeded(json.livestorm)}/api/v1/temp_plugins`, {
     method: 'POST',
-    headers: { 'Content-Type': 'Application/JSON' },
-    body: { ...json.livestorm, data }
+    headers: { 
+      'Content-Type': 'Application/JSON',
+      ...setLocalHostIfNeeded(json.livestorm)
+    },
+    body: JSON.stringify({ ...json.livestorm, data })
   })
     .then(handleResponse)
-    .catch(() => handleNetworkError(json))
+    .catch((err) => handleNetworkError(err, json))
 }
 
 function handleResponse({ status }) {
-  if (status === 201 || status === 200) {
+  if (status === 201 || status === 204) {
     console.log(`Successfully ${status === 201 ? 'created' : 'updated'} plugin 🎉`)
   } else {
+    console.log(status)
     throw 'update failed'
   }
 }
 
-function handleNetworkError(json) {
+function handleNetworkError(err, json) {
+  console.log(err)
   console.log(`Failed to send plugin to ${json.livestorm.endpoint}.`)
   console.log('Make sure your internet connection is working and check https://status.livestorm.co/')
 }
