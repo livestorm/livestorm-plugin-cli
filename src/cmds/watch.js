@@ -11,7 +11,7 @@ module.exports = function watch() {
     const res = execSync('livestorm publish').toString()
     if (res.includes('Successfully')) {
       process.stdout.write('\x1b[92m.\x1b[32m')
-      process.stdout.write('\x1b[0m')
+      console.log('\x1b[0m')
     } else {
       console.log(res)
     }
