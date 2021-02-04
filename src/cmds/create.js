@@ -59,7 +59,8 @@ module.exports = () => {
       defaultData.name = answers.name
       defaultData.version = answers.version
       defaultData.description = answers.publicDescription || ''
-      defaultData.livestorm.name = answers.publicName || answers.name
+      defaultData.livestorm.name = answers.name
+      defaultData.livestorm.publicName = answers.publicName || answers.name
       defaultData.livestorm.description = answers.publicDescription || answers.name
       defaultData.livestorm.apiKey = answers.apiKey || ''
 
