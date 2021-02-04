@@ -14,8 +14,11 @@ Then, to get the list of available commands, run :
 livestorm help
 ```
 
-To upload your assets for now we're using imgbb API.
-To use the `livestorm asset <file>` command, please get an API key at api.imgbb.com and use the command like this : 
+### Manage your assets
+
+If your project needs to use assets such as images, videos, sound file you can use the `livestorm asset <file>`.
+
+Since we're temporarily using imgbb api, you need to get an API key at api.imgbb.com and use the command like this : 
 
 ```
 IMGBB_KEY=<key> livestorm asset <file>
@@ -23,5 +26,5 @@ IMGBB_KEY=<key> livestorm asset <file>
 
 The `<file>` argument corresponds to a file located in an `src/assets` folder.
 
-For instance to upload a file located at `yourproject/src/assets/img/test.png` run `livestorm asset img/test/png` from the root of your project
+For instance, to upload a file located at `yourproject/src/assets/img/test.png` run `livestorm asset img/test.png` from the root of your project
 
