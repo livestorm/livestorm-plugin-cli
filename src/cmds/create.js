@@ -52,17 +52,14 @@ module.exports = () => {
       console.log('Creating plugin...')
       execSync(`git clone git@github.com:livestorm/livestorm-plugin-example.git livestorm-plugin-${answers.name}`)
       execSync(`rm -rf ${pathForPlugin(answers.name)}/.git`)
-      execSync(`cd ${pathForPlugin(answers.name)} && git init && git add --a && git commit -m "First commit"`)
       
       const defaultData = require(`${pathForPlugin(answers.name)}/package.json`)
       
       defaultData.name = answers.name
       defaultData.version = answers.version
       defaultData.description = answers.publicDescription || ''
-      defaultData.livestorm.name = answers.name
-      defaultData.livestorm.publicName = answers.publicName || answers.name
-      defaultData.livestorm.description = answers.publicDescription || answers.name
-      defaultData.livestorm.apiKey = answers.apiKey || ''
+      defaultData.livestorm.development.name = answers.name
+      defaultData.livestorm.development.apiKey = answers.apiKey || ''
 
       execSync(`cd ${pathForPlugin(answers.name)} && yarn`)
       
@@ -70,6 +67,8 @@ module.exports = () => {
         `./livestorm-plugin-${answers.name}/package.json`,
         JSON.stringify(defaultData, null, 2)
       )
+
+      execSync(`cd ${pathForPlugin(answers.name)} && git init && git add --a && git commit -m "First commit"`)
 
       console.log('All done 🙌')
       console.log(`If you need to change any of the pre-given answers feel free to edit ./${directoryNameFor(answers.name)}/package.json`)
