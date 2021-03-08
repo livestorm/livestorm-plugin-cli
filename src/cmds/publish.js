@@ -18,22 +18,22 @@ function setLocalHostIfNeeded(config) {
   }
 }
 
-function sendToLivestormAPI(json, fileContent) {
-  console.log(`Sending plugin to ${json.livestorm.endpoint}`)
+function sendToLivestormAPI(config, fileContent) {
+  console.log(`Sending plugin to ${config.endpoint}`)
   
   const data = Buffer.from(fileContent).toString('base64')
 
-  fetch(`${setLocalProxyIfNeeded(json.livestorm)}/api/v1/plugins`, {
+  fetch(`${setLocalProxyIfNeeded(config)}/api/v1/plugins`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'Application/JSON',
-      'Authorization': json.livestorm.apiKey,
-      ...setLocalHostIfNeeded(json.livestorm)
+      'Authorization': config.apiKey,
+      ...setLocalHostIfNeeded(config)
     },
-    body: JSON.stringify({ ...json.livestorm, data })
+    body: JSON.stringify({ ...config, data })
   })
     .then(handleResponse)
-    .catch((err) => handleNetworkError(err, json))
+    .catch((err) => handleNetworkError(err, config))
 }
 
 function handleResponse({ status }) {
@@ -47,14 +47,14 @@ function handleResponse({ status }) {
 
 function handleNetworkError(err, json) {
   console.log(err)
-  console.log(`Failed to send plugin to ${json.livestorm.endpoint}.`)
+  console.log(`Failed to send plugin to ${json.endpoint}.`)
   console.log('Make sure your internet connection is working and check https://status.livestorm.co/')
 }
 
 module.exports = function publish() {
   try {
     sendToLivestormAPI(
-      getLivestormPluginInformation(),
+      getLivestormPluginInformation(process.argv[3]),
       build()
     )
   } catch(err) {
