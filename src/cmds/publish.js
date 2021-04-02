@@ -1,22 +1,9 @@
 const build = require('./build')
 const fetch = require('node-fetch')
+
 const getLivestormPluginInformation = require('../helpers/getLivestormPluginInformation')
-
-function setLocalProxyIfNeeded(config) {
-  if (config.endpoint.includes('plugins.livestorm.local')) {
-    return 'http://localhost:4004'
-  } else {
-    return config.endpoint
-  }
-}
-
-function setLocalHostIfNeeded(config) {
-  if (config.endpoint.includes('plugins.livestorm.local')) {
-    return { 'Host': 'plugins.livestorm.local' }
-  } else {
-    return {}
-  }
-}
+const setLocalProxyIfNeeded = require('../helpers/setLocalProxyIfNeeded')
+const setLocalHostIfNeeded = require('../helpers/setLocalHostIfNeeded')
 
 function sendToLivestormAPI(config, fileContent) {
   console.log(`Sending plugin to ${config.endpoint}`)
