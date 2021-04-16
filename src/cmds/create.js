@@ -58,14 +58,20 @@ module.exports = () => {
       defaultData.name = answers.name
       defaultData.version = answers.version
       defaultData.description = answers.publicDescription || ''
-      defaultData.livestorm.development.name = answers.name
-      defaultData.livestorm.development.apiKey = answers.apiKey || ''
-
+      
       execSync(`cd ${pathForPlugin(answers.name)} && yarn`)
       
       fs.writeFileSync(
         `./livestorm-plugin-${answers.name}/package.json`,
         JSON.stringify(defaultData, null, 2)
+      )
+
+      const environments = require(`${pathForPlugin(answers.name)}/environments.json`)
+      environments.development.name = answers.name
+      environments.development.apiKey = answers.apiKey || ''
+      fs.writeFileSync(
+        `./livestorm-plugin-${answers.name}/environments.json`,
+        JSON.stringify(environments, null, 2)
       )
 
       execSync(`cd ${pathForPlugin(answers.name)} && git init && git add --a && git commit -m "First commit"`)
