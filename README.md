@@ -5,7 +5,7 @@ This project is a CLI that allows you to create, publish and manage your livesto
 
 To install simply : 
 ```
-yarn global add git+ssh://git@github.com/livestorm/livestorm-plugin-cli.git
+yarn global add @livestorm/cli
 ```
 
 
