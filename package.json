@@ -10,9 +10,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
-    "imgbb-uploader": "^1.3.0",
     "node-fetch": "^2.6.1",
     "prompts": "^2.4.0"
   }
