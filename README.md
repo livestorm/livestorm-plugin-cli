@@ -10,5 +10,5 @@ Plugins is the best way to create powerful live integrations and interactions wi
 
 Get started building your own plugins and leverage the power of livestorm or discover our API QuickStart Guides.
 
-[<img src="https://raw.githubusercontent.com/livestorm/livestorm-plugin-cli/master/src/assets/docs-link.png" width="200px">](https://developers.livestorm.co/docs/getting-started-with-plugins-sdk/)
+[<img src="https://raw.githubusercontent.com/livestorm/livestorm-plugin-cli/master/src/assets/docs-link.png" width="120px">](https://developers.livestorm.co/docs/getting-started-with-plugins-sdk/)
 
