@@ -1,7 +1,6 @@
-<img src="https://raw.githubusercontent.com/livestorm/livestorm-plugin-cli/master/src/assets/cli-header.png">
-
 
 # Plugins SDK
+<img src="https://raw.githubusercontent.com/livestorm/livestorm-plugin-cli/master/src/assets/cli-header.png" width="500px">
 
 Take your events to the next level with Livestorm plugins, a powerful SDK designed to let you build amazing experiences, on top of a platform you already love.
 
@@ -11,5 +10,5 @@ Plugins is the best way to create powerful live integrations and interactions wi
 
 Get started building your own plugins and leverage the power of livestorm or discover our API QuickStart Guides.
 
-[![Documentation](https://raw.githubusercontent.com/livestorm/livestorm-plugin-cli/master/src/assets/docs-link.png)](https://developers.livestorm.co/docs/getting-started-with-plugins-sdk/)
+[<img src="https://raw.githubusercontent.com/livestorm/livestorm-plugin-cli/master/src/assets/docs-link.png" width="200px">](https://developers.livestorm.co/docs/getting-started-with-plugins-sdk/)
 
