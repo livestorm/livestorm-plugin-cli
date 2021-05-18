@@ -50,7 +50,7 @@ module.exports = () => {
     try {
       if (!answers.name || !answers.version) return
       console.log('Creating plugin...')
-      execSync(`git clone git@github.com:livestorm/livestorm-plugin-example.git livestorm-plugin-${answers.name}`)
+      execSync(`git clone https://github.com/livestorm/livestorm-plugin-boilerplate.git livestorm-plugin-${answers.name}`)
       execSync(`rm -rf ${pathForPlugin(answers.name)}/.git`)
       
       const defaultData = require(`${pathForPlugin(answers.name)}/package.json`)

@@ -1,30 +1,13 @@
-Livestorm plugin CLI
----
 
-This project is a CLI that allows you to create, publish and manage your livestorm plugins
+<img src="https://raw.githubusercontent.com/livestorm/livestorm-plugin-cli/master/src/assets/sdk-header.png" width="500px">
 
-To install simply : 
-```
-yarn global add git+ssh://git@github.com/livestorm/livestorm-plugin-cli.git
-```
+Take your events to the next level with Livestorm plugins, a powerful SDK designed to let you build amazing experiences, on top of a platform you already love.
 
+Our APIs make it easy to create complex live interactions. Messaging, websockets, WebRTC, let us worry about complex stuff, focus on the plugin experience.
 
-Then, to get the list of available commands, run :
-```
-livestorm help
-```
+Plugins is the best way to create powerful live integrations and interactions with 3rd party services you already use !
 
-### Manage your assets
+Get started building your own plugins and leverage the power of livestorm or discover our API QuickStart Guides.
 
-If your project needs to use assets such as images, videos, sound file you can use the `livestorm asset <file>`.
-
-Since we're temporarily using imgbb api, you need to get an API key at api.imgbb.com and use the command like this : 
-
-```
-IMGBB_KEY=<key> livestorm asset <file>
-```
-
-The `<file>` argument corresponds to a file located in an `src/assets` folder.
-
-For instance, to upload a file located at `yourproject/src/assets/img/test.png` run `livestorm asset img/test.png` from the root of your project
+[<img src="https://raw.githubusercontent.com/livestorm/livestorm-plugin-cli/master/src/assets/docs-link.png" width="120px">](https://developers.livestorm.co/docs/getting-started-with-plugins-sdk/)
 
