@@ -26,7 +26,7 @@ module.exports = function asset() {
 
   console.log('Uploading...')
   fetch(
-    'http://localhost:4004/api/v1/medias',
+    'https://plugins.livestorm.co/api/v1/medias',
     {
       method: 'POST',
       body: JSON.stringify(data),
