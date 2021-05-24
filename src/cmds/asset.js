@@ -9,7 +9,7 @@ module.exports = function asset() {
     console.log('Usage: livestorm asset <file>')
     process.exit(1)
   }
-  file = `${process.cwd()}/${file}`
+  file = `${process.cwd()}${process.platform.includes('win') ? '\\' : '/'}${file}`
 
   if (fs.statSync(file).size / (1024*1024) > 8) {
     console.log('File size must be inferior to 8MB.')
