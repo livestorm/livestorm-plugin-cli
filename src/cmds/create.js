@@ -1,6 +1,8 @@
 const { execSync } = require('child_process')
 const fs = require('fs')
 const prompts = require('prompts')
+const path = require('path')
+const rimraf = require('rimraf')
 
 const questions = [
   {
@@ -23,21 +25,11 @@ const questions = [
     type: 'text',
     name: 'apiKey',
     message: 'What is your API key ?'
-  },
-  {
-    type: 'text',
-    name: 'publicName',
-    message: 'Choose a name that will be publicly displayed (it can be changed later) ?'
-  },
-  {
-    type: 'text',
-    name: 'publicDescription',
-    message: 'Describe your package briefly'
-  },
+  }
 ]
 
 function pathForPlugin(name) {
-  return `${process.cwd()}/${directoryNameFor(name)}`
+  return path.join(process.cwd(), directoryNameFor(name))
 }
 
 function directoryNameFor(name) {
@@ -51,7 +43,9 @@ module.exports = () => {
       if (!answers.name || !answers.version) return
       console.log('Creating plugin...')
       execSync(`git clone https://github.com/livestorm/livestorm-plugin-boilerplate.git livestorm-plugin-${answers.name}`)
-      execSync(`rm -rf ${pathForPlugin(answers.name)}/.git`)
+
+      rimraf.sync(path.join(pathForPlugin(answers.name), '.git'))
+      
       
       const defaultData = require(`${pathForPlugin(answers.name)}/package.json`)
       
@@ -81,9 +75,8 @@ module.exports = () => {
       console.log(`You can start coding by opening ./${directoryNameFor(answers.name)}/index.ts`)
       console.log(`Visit https://github.com/livestorm/livestorm-plugin for documentation`)
     } catch(err) {
-      console.log(err)
-      console.log('Oups, an error happened. Please drop us an email with the error detail.')
-      execSync(`rm -rf ${pathForPlugin(answers.name)}`)
+      rimraf(pathForPlugin(answers.name))
+      console.log('Oops, an error happened. Please drop us an email with the error detail.')
     }
   })
 }

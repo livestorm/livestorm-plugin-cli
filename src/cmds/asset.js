@@ -1,6 +1,6 @@
-const path = require('path');
-const fs = require('fs');
-const { default: fetch } = require('node-fetch');
+const path = require('path')
+const fs = require('fs')
+const { default: fetch } = require('node-fetch')
 
 module.exports = function asset() {
   let file = process.argv[3]
@@ -9,7 +9,7 @@ module.exports = function asset() {
     console.log('Usage: livestorm asset <file>')
     process.exit(1)
   }
-  file = `${process.cwd()}/${file}`
+  file = path.join(process.cwd(), file)
 
   if (fs.statSync(file).size / (1024*1024) > 8) {
     console.log('File size must be inferior to 8MB.')
