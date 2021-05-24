@@ -29,7 +29,7 @@ const questions = [
 ]
 
 function pathForPlugin(name) {
-  return `${process.cwd()}${path.sep}${directoryNameFor(name)}`
+  return path.join(process.cwd(), directoryNameFor(name))
 }
 
 function directoryNameFor(name) {
@@ -44,7 +44,7 @@ module.exports = () => {
       console.log('Creating plugin...')
       execSync(`git clone https://github.com/livestorm/livestorm-plugin-boilerplate.git livestorm-plugin-${answers.name}`)
 
-      rimraf.sync(`${pathForPlugin(answers.name)}${path.sep}.git`)
+      rimraf.sync(path.join(pathForPlugin(answers.name), '.git'))
       
       
       const defaultData = require(`${pathForPlugin(answers.name)}/package.json`)
