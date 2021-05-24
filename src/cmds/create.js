@@ -1,6 +1,8 @@
 const { execSync } = require('child_process')
 const fs = require('fs')
 const prompts = require('prompts')
+const path = require('path')
+const rimraf = require('rimraf')
 
 const questions = [
   {
@@ -27,7 +29,7 @@ const questions = [
 ]
 
 function pathForPlugin(name) {
-  return `${process.cwd()}${process.platform.includes('win') ? '\\' : '/'}${directoryNameFor(name)}`
+  return `${process.cwd()}${path.sep}${directoryNameFor(name)}`
 }
 
 function directoryNameFor(name) {
@@ -42,11 +44,7 @@ module.exports = () => {
       console.log('Creating plugin...')
       execSync(`git clone https://github.com/livestorm/livestorm-plugin-boilerplate.git livestorm-plugin-${answers.name}`)
 
-      if (process.platform.includes('win')) {
-        execSync(`rmdir /s /q ${pathForPlugin(answers.name)}\\.git`)
-      } else {
-        execSync(`rm -rf ${pathForPlugin(answers.name)}/.git`)
-      }
+      rimraf.sync(`${pathForPlugin(answers.name)}${path.sep}.git`)
       
       
       const defaultData = require(`${pathForPlugin(answers.name)}/package.json`)
@@ -77,6 +75,7 @@ module.exports = () => {
       console.log(`You can start coding by opening ./${directoryNameFor(answers.name)}/index.ts`)
       console.log(`Visit https://github.com/livestorm/livestorm-plugin for documentation`)
     } catch(err) {
+      rimraf.sync(pathForPlugin(answers.name))
       console.log('Oups, an error happened. Please drop us an email with the error detail.')
     }
   })
