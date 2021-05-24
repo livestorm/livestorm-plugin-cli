@@ -75,8 +75,8 @@ module.exports = () => {
       console.log(`You can start coding by opening ./${directoryNameFor(answers.name)}/index.ts`)
       console.log(`Visit https://github.com/livestorm/livestorm-plugin for documentation`)
     } catch(err) {
-      rimraf.sync(pathForPlugin(answers.name))
-      console.log('Oups, an error happened. Please drop us an email with the error detail.')
+      rimraf(pathForPlugin(answers.name))
+      console.log('Oops, an error happened. Please drop us an email with the error detail.')
     }
   })
 }
