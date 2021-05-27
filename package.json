@@ -12,6 +12,8 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "cliff": "^0.1.10",
+    "command-line-args": "^5.1.1",
     "node-fetch": "^2.6.1",
     "prompts": "^2.4.0",
     "rimraf": "^3.0.2"
