@@ -5,6 +5,7 @@ const watch = require('./watch')
 const build = require('./build')
 const asset = require('./asset')
 const help = require('./help')
+const list = require('./list')
 
 module.exports = {
   publish,
@@ -13,5 +14,6 @@ module.exports = {
   watch,
   build,
   asset,
-  help
+  help,
+  list
 }
