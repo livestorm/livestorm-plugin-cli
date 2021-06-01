@@ -19,7 +19,7 @@ _  /____/ /  __ |/ / _  /___  ____/ /_  /   / /_/ /_  _, _/_  /  / /
       ['publish <environment>', 'Publish your plugin'],
       ['watch   <environment>', 'Publish your plugin each time you make a change'],
       ['remove  <environment>', 'Unpublish the plugin'],
-      ['asset', 'Upload files and use them in your plugins'],
+      ['asset   <file>', 'Upload files and use them in your plugins'],
       ['list [--environment|--api-token]', 'List the published plugins'],
     ], ['blue', 'blue'])
   )
