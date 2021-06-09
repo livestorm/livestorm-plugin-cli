@@ -23,8 +23,8 @@ const questions = [
   },
   {
     type: 'text',
-    name: 'apiKey',
-    message: 'What is your API key ?'
+    name: 'apiToken',
+    message: 'What is your API token ?'
   }
 ]
 
@@ -62,7 +62,7 @@ module.exports = () => {
 
       const environments = require(`${pathForPlugin(answers.name)}/environments.json`)
       environments.development.name = answers.name
-      environments.development.apiKey = answers.apiKey || ''
+      environments.development.apiToken = answers.apiToken || ''
       fs.writeFileSync(
         `./livestorm-plugin-${answers.name}/environments.json`,
         JSON.stringify(environments, null, 2)
