@@ -8,7 +8,7 @@ module.exports = function getLivestormPluginInformation(envName = 'development')
   }
   console.log(`Livestorm plugin ${json.name} in version ${json.version} detected`)
 
-  if (envName === 'development' && !json.livestorm[envName] && (json.livestorm.apiToken || json.livestorm.apiToken)) {
+  if (envName === 'development' && !json.livestorm[envName] && (json.livestorm.apiToken || json.livestorm.apiKey)) {
     foundEnv = json.livestorm
   } else if (json.livestorm[envName]) {
     foundEnv = json.livestorm[envName]
