@@ -19,7 +19,7 @@ module.exports = () => {
   fetch(`${setLocalProxyIfNeeded(config)}/api/v1/plugins`, {
     headers: { 
       'Content-Type': 'Application/JSON',
-      'Authorization': config.apiKey,
+      'Authorization': config.apiToken || config.apiKey,
       ...setLocalHostIfNeeded(config)
     }
   })
@@ -34,7 +34,7 @@ function getConfigBasedOnInput(options) {
   if (options.environment) {
     return getLivestormPluginInformation(options.environment)
   } else if (options['api-token']) {
-    return { endpoint: 'https://plugins.livestorm.co', apiKey: options['api-token'] }
+    return { endpoint: 'https://plugins.livestorm.co', apiToken: options['api-token'] }
   } else {
     console.log('You must provide either a target environment or an API token using the --environment or --api-token flags.')
     process.exit()
