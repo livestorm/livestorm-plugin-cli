@@ -14,7 +14,7 @@ function sendToLivestormAPI(config, fileContent) {
     method: 'POST',
     headers: { 
       'Content-Type': 'Application/JSON',
-      'Authorization': config.apiKey,
+      'Authorization': config.apiToken || config.apiKey,
       ...setLocalHostIfNeeded(config)
     },
     body: JSON.stringify({ ...config, data })
