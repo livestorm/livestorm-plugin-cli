@@ -3,7 +3,7 @@ const commandLineArgs = require('command-line-args')
 const getLivestormPluginInformation = require('../helpers/getLivestormPluginInformation')
 const setLocalProxyIfNeeded = require('../helpers/setLocalProxyIfNeeded')
 const setLocalHostIfNeeded = require('../helpers/setLocalHostIfNeeded')
-const cliff = require('cliff');
+const cliff = require('cliff')
 
 
 module.exports = () => {

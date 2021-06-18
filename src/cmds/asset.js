@@ -39,8 +39,8 @@ function getDirectoryToken(givenPath) {
     directory = response
 
     if (directory.token) {
-      console.log(`Your files will be available under ${directory.url}`)
       console.log('Uploading...')
+      console.log(`└── ${directory.url}/`)
       uploadEachFileFrom(givenPath)
     }
   })
@@ -56,9 +56,7 @@ function uploadEachFileFrom(directory) {
 }
 
 function uploadFile(file) {
-  if (fs.statSync(file).size / (1024*1024) > 8) {
-    return console.log(`File ${file} size must be inferior to 8MB.`)
-  }
+  if (!securityChecksOK(file)) return
 
   const data = {
     base64: fs.readFileSync(file, {encoding: 'base64'}),
@@ -88,8 +86,31 @@ function uploadFile(file) {
       else throw new Error('Incorrect response, verify integrity and size.')
     })
     .then((response) => {
-      if (directory.token) process.stdout.write('.')
+      if (directory.token) console.log(`   ├── ✓ ${data.filename}${data.extension}`)
       else console.log(`Done ! Your file is available at ${response.url}`)
     })
     .catch((error) => console.error(error));
+}
+
+function securityChecksOK(file) {
+  if (fs.statSync(file).size / (1024*1024) > 8) {
+    console.log(`File ${file} size must be inferior to 8MB.`)
+    return false
+  }
+
+  const dangerousExtensions = ['.exe', '.msi', '.reg', '.bat', '.action', '.apk', '.app', '.bat', '.bin', '.cmd', 
+  '.com', '.command', '.cpl', '.csh', '.exe', '.gadget', '.inf1', '.ins', '.inx', '.ipa', 
+  '.isu', '.jar', '.job', '.js','.jse', '.ksh', '.lnk', '.msc', '.msi', '.msp', '.mst', 
+  '.osx', '.out', '.paf', '.pif', '.prg', '.ps1', '.reg', '.rgs', '.run', '.scr', '.sct', 
+  '.sh', '.shb', '.shs', '.u3p', '.vb', '.vbe', 'vbs' ,'.vbscript', '.workflow', '.ws', '.wsf', '.wsh']
+
+  if (dangerousExtensions.includes(path.extname(file))) {
+    return false
+  }
+
+  if (path.parse(file).name.startsWith('.')) {
+    return false
+  }
+
+  return true
 }
