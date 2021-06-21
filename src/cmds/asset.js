@@ -17,34 +17,30 @@ module.exports = function asset() {
   uploadFileOrDirectory(givenPath)
 }
 
-function uploadFileOrDirectory(givenPath) {
+async function uploadFileOrDirectory(givenPath) {
   if (fs.lstatSync(givenPath).isDirectory()) {
-    if (!directory.token) return getDirectoryToken(givenPath)
-
-    uploadEachFileFrom(givenPath)
+    if (await getDirectoryToken()) uploadEachFileFrom(givenPath)
   } else {
     uploadFile(givenPath)
   }
 }
 
-function getDirectoryToken(givenPath) {
-  fetch(
+async function getDirectoryToken() {
+  if (directory.token) return directory.token
+
+  const response = await fetch(
     `${mediasUrl}/folder`,
     {
       method: 'POST',
       headers: { 'Content-Type': 'Application/JSON' }
     }
-  ).then((res) => res.json())
-  .then((response) => {
-    directory = response
-
-    if (directory.token) {
-      console.log('Uploading...')
-      console.log(`└── ${directory.url}/`)
-      uploadEachFileFrom(givenPath)
-    }
-  })
-  .catch((error) => console.error(error));
+  )
+  directory = await response.json()
+  if (directory.token) {
+    console.log('Uploading...')
+    console.log(`└── ${directory.url}/`)
+    return directory.token
+  }
 }
 
 function uploadEachFileFrom(directory) {
@@ -55,7 +51,7 @@ function uploadEachFileFrom(directory) {
   }) 
 }
 
-function uploadFile(file) {
+async function uploadFile(file) {
   if (!securityChecksOK(file)) return
 
   const data = {
@@ -64,32 +60,21 @@ function uploadFile(file) {
     filename: path.parse(file).name,
   }
   
-  if (directory.token) {
-    data.token = directory.token
-  } else {
-    console.log('Uploading...')
-  }
+  if (directory.token) data.token = directory.token
+  else console.log('Uploading...')
 
 
-  fetch(
-    mediasUrl,
-    {
+  let res = await fetch(mediasUrl, {
       method: 'POST',
       body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'Application/JSON'
-      }
-    }
-  )
-    .then((res) => {
-      if (res.status === 201) return res.json()
-      else throw new Error('Incorrect response, verify integrity and size.')
-    })
-    .then((response) => {
-      if (directory.token) console.log(`   ├── ✓ ${data.filename}${data.extension}`)
-      else console.log(`Done ! Your file is available at ${response.url}`)
-    })
-    .catch((error) => console.error(error));
+      headers: { 'Content-Type': 'Application/JSON' }
+  })
+
+  if (res.status === 201) res = await res.json()
+  else throw new Error('Incorrect response, verify integrity and size.')
+  
+  if (directory.token) console.log(`   ├── ✓ ${data.filename}${data.extension}`)
+  else console.log(`Done ! Your file is available at ${rew.url}`)
 }
 
 function securityChecksOK(file) {
@@ -104,13 +89,7 @@ function securityChecksOK(file) {
   '.osx', '.out', '.paf', '.pif', '.prg', '.ps1', '.reg', '.rgs', '.run', '.scr', '.sct', 
   '.sh', '.shb', '.shs', '.u3p', '.vb', '.vbe', 'vbs' ,'.vbscript', '.workflow', '.ws', '.wsf', '.wsh']
 
-  if (dangerousExtensions.includes(path.extname(file))) {
-    return false
-  }
-
-  if (path.parse(file).name.startsWith('.')) {
-    return false
-  }
-
+  if (dangerousExtensions.includes(path.extname(file))) return false
+  if (path.parse(file).name.startsWith('.')) return false
   return true
 }
