@@ -64,17 +64,16 @@ async function uploadFile(file) {
   else console.log('Uploading...')
 
 
-  let res = await fetch(mediasUrl, {
+  const res = await fetch(mediasUrl, {
       method: 'POST',
       body: JSON.stringify(data),
       headers: { 'Content-Type': 'Application/JSON' }
   })
 
-  if (res.status === 201) res = await res.json()
-  else throw new Error('Incorrect response, verify integrity and size.')
-  
+  if (res.status !== 201) throw new Error('Incorrect response, verify integrity and size.')
+
   if (directory.token) console.log(`   ├── ✓ ${data.filename}${data.extension}`)
-  else console.log(`Done ! Your file is available at ${rew.url}`)
+  else console.log(`Done ! Your file is available at ${(await res.json()).url}`)
 }
 
 function securityChecksOK(file) {
