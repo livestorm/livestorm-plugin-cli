@@ -19,7 +19,7 @@ module.exports = function asset() {
 
 async function uploadFileOrDirectory(givenPath) {
   if (fs.lstatSync(givenPath).isDirectory()) {
-    if (await getDirectoryToken()) uploadEachFileFrom(givenPath)
+    if (await getDirectoryToken()) uploadDirectory(givenPath)
   } else {
     uploadFile(givenPath)
   }
@@ -43,7 +43,7 @@ async function getDirectoryToken() {
   }
 }
 
-function uploadEachFileFrom(directory) {
+function uploadDirectory(directory) {
   fs.readdir(directory, (err, files) => {
     files.forEach(file => {
       uploadFileOrDirectory(path.join(directory, file))
