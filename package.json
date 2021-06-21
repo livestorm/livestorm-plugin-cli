@@ -1,6 +1,6 @@
 {
   "name": "@livestorm/cli",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "CLI that allows you to build and deploy your Livestorm plugin",
   "main": "index.js",
   "bin": {
