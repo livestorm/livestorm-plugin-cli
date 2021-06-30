@@ -6,6 +6,7 @@ const crypto = require('crypto')
 
 const uploadFileOrDirectory = require('../helpers/uploadFileOrDirectory')
 const getLivestormPluginInformation = require('../helpers/getLivestormPluginInformation')
+const livestormDomain = require('../helpers/livestormDomain')
 
 const questions = [
   {
@@ -66,11 +67,16 @@ module.exports = async function review() {
   try {
     const config = getLivestormPluginInformation('production')
     const answers = await prompts(questions)
+
+    if (answers.purpose.include('marketplace')) {
+      answers.marketplaceData = require(`${process.cwd()}/marketplace.json`)
+    }
+
     const zipUrl = await uploadZip(createZip())
   
     console.log('Sending review request...')
   
-    const res = await fetch(`https://plugins.livestorm.co/api/v1/plugins/${config.name}/reviews`, {
+    const res = await fetch(`${livestormDomain}/api/v1/plugins/${config.name}/reviews`, {
       method: 'POST',
       body: JSON.stringify({
         ...answers,

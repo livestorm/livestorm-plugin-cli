@@ -1,3 +1,5 @@
+const livestormDomain = require('./livestormDomain')
+
 module.exports = function getLivestormPluginInformation(envName = 'development') {
   let json = require(`${process.cwd()}/package.json`)
   let foundEnv = null
@@ -17,6 +19,6 @@ module.exports = function getLivestormPluginInformation(envName = 'development')
     process.exit()
   }
 
-  if (!foundEnv.endpoint) foundEnv.endpoint =  'https://plugins.livestorm.co'
+  if (!foundEnv.endpoint) foundEnv.endpoint =  livestormDomain
   return foundEnv
 }

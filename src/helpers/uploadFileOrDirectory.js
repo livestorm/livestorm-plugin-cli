@@ -1,8 +1,9 @@
 const path = require('path')
 const fs = require('fs')
 const { default: fetch } = require('node-fetch')
+const livestormDomain = require('./livestormDomain')
 
-const mediasUrl = 'https://plugins.livestorm.co/api/v1/medias'
+const mediasUrl = `${livestormDomain}/api/v1/medias`
 let directory = {}
 
 

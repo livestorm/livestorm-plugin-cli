@@ -1,0 +1,1 @@
+module.exports = process.env.LIVESTORM_DOMAIN || 'https://plugins.livestorm.co'
