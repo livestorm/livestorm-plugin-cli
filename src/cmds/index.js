@@ -1,6 +1,7 @@
 const publish = require('./publish')
 const create = require('./create')
 const remove = require('./remove')
+const review = require('./review')
 const watch = require('./watch')
 const build = require('./build')
 const asset = require('./asset')
@@ -11,6 +12,7 @@ module.exports = {
   publish,
   create,
   remove,
+  review,
   watch,
   build,
   asset,

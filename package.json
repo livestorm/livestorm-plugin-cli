@@ -12,6 +12,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "adm-zip": "^0.5.5",
     "cliff": "^0.1.10",
     "command-line-args": "^5.1.1",
     "node-fetch": "^2.6.1",
