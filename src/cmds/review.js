@@ -3,6 +3,7 @@ const prompts = require('prompts')
 const rimraf = require('rimraf')
 const Zip = require('adm-zip')
 const crypto = require('crypto')
+const fetch = require('node-fetch')
 
 const uploadFileOrDirectory = require('../helpers/uploadFileOrDirectory')
 const getLivestormPluginInformation = require('../helpers/getLivestormPluginInformation')
@@ -11,7 +12,7 @@ const livestormDomain = require('../helpers/livestormDomain')
 const questions = [
   {
     type: 'multiselect',
-    name: 'purpose',
+    name: 'purposes',
     message: 'What does your plugin need a review for ?',
     choices: [
       { title: 'I want to publish to the marketplace', value: 'marketplace' },
@@ -68,7 +69,7 @@ module.exports = async function review() {
     const config = getLivestormPluginInformation('production')
     const answers = await prompts(questions)
 
-    if (answers.purpose.include('marketplace')) {
+    if (answers.purposes.find((purpose => purpose == 'marketplace'))) {
       answers.marketplaceData = require(`${process.cwd()}/marketplace.json`)
     }
 
@@ -92,6 +93,7 @@ module.exports = async function review() {
       console.log(`Done ! You review request has been created, we'll get back to you by email at ${answers.email}.`)
     }
   } catch(err) {
-    console.log('Failed to send review request, please contact us plugins@livestorm.co')
+    console.log(err)
+    console.log('Failed to send review request, please contact us at plugins@livestorm.co')
   }
 }
