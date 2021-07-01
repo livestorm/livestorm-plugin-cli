@@ -70,7 +70,7 @@ module.exports = async function review() {
     const answers = await prompts(questions)
 
     if (answers.purposes.find((purpose => purpose == 'marketplace'))) {
-      answers.marketplaceData = require(`${process.cwd()}/marketplace.json`)
+      answers.metadata = require(`${process.cwd()}/marketplace.json`)
     }
 
     const zipUrl = await uploadZip(createZip())
