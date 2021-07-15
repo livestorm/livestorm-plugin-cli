@@ -4,6 +4,7 @@ const rimraf = require('rimraf')
 const Zip = require('adm-zip')
 const crypto = require('crypto')
 const fetch = require('node-fetch')
+const { execSync } = require('child_process')
 
 const uploadFileOrDirectory = require('../helpers/uploadFileOrDirectory')
 const getLivestormPluginInformation = require('../helpers/getLivestormPluginInformation')
@@ -13,10 +14,10 @@ const questions = [
   {
     type: 'multiselect',
     name: 'purposes',
-    message: 'What does your plugin need a review for ?',
+    message: 'What does your plugin need a review for?',
     choices: [
-      { title: 'I want to publish to the marketplace', value: 'marketplace' },
-      { title: 'I need the allow-same-origin flag', value: 'allow-same-origin' },
+      { title: 'I want to publish it in Livestorm\'s apps marketplace', value: 'marketplace' },
+      { title: 'I need to use the \'allow-same-origin\' flag on an iframe', value: 'allow-same-origin' },
       { title: 'I need to use a private API', value: 'private-api' }
     ],
     hint: 'Use arrows to browse and space bar to toggle',
@@ -26,7 +27,7 @@ const questions = [
   {
     type: 'text',
     name: 'comment',
-    message: 'Anything in particular you want to communicate to the review team ?',
+    message: 'Is there anything else you\'d like to communicate to the review team?',
   },
   {
     type: 'text',
@@ -70,6 +71,7 @@ module.exports = async function review() {
     const answers = await prompts(questions)
 
     if (answers.purposes.find((purpose => purpose == 'marketplace'))) {
+      execSync('livestorm publish production')
       answers.metadata = require(`${process.cwd()}/marketplace.json`)
     }
 
@@ -77,20 +79,21 @@ module.exports = async function review() {
   
     console.log('Sending review request...')
   
-    const res = await fetch(`${livestormDomain}/api/v1/plugins/${config.name}/reviews`, {
+    const res = await fetch(`${'http://localhost:4004' || livestormDomain}/api/v1/plugins/${config.name}/reviews`, {
       method: 'POST',
       body: JSON.stringify({
         ...answers,
-        zipUrl
+        zip_url: zipUrl
       }),
       headers: {
         'Content-Type': 'Application/JSON',
-        'Authorization': config.apiToken || config.apiKey,
+        'Authorization': config.apiToken || config.apiKey
       }
     })
+    console.log(res.status)
   
     if (res.status === 201) {
-      console.log(`Done ! You review request has been created, we'll get back to you by email at ${answers.email}.`)
+      console.log(`Done! Your review has been sent, we'll get back to you shortly at ${answers.email}.`)
     }
   } catch(err) {
     console.log(err)
