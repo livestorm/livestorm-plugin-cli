@@ -60,7 +60,7 @@ function createZip() {
 
 async function uploadZip(zipFile) {
   console.log('Uploading zip...')
-  const url = await uploadFileOrDirectory(zipFile)
+  const url = await uploadFileOrDirectory(zipFile, false)
   rimraf.sync(`./${zipFile}`)
   return url
 }
@@ -68,9 +68,11 @@ async function uploadZip(zipFile) {
 module.exports = async function review() {
   try {
     const config = getLivestormPluginInformation('production')
+    console.log(`Starting review process for '${config.name}'…`)
     const answers = await prompts(questions)
 
     if (answers.purposes.find((purpose => purpose == 'marketplace'))) {
+      console.log('Syncing plugin code...')
       execSync('livestorm publish production')
       answers.metadata = require(`${process.cwd()}/marketplace.json`)
     }
@@ -79,7 +81,7 @@ module.exports = async function review() {
   
     console.log('Sending review request...')
   
-    const res = await fetch(`${'http://localhost:4004' || livestormDomain}/api/v1/plugins/${config.name}/reviews`, {
+    const res = await fetch(`${livestormDomain}/api/v1/plugins/${config.name}/reviews`, {
       method: 'POST',
       body: JSON.stringify({
         ...answers,
@@ -90,10 +92,10 @@ module.exports = async function review() {
         'Authorization': config.apiToken || config.apiKey
       }
     })
-    console.log(res.status)
-  
     if (res.status === 201) {
       console.log(`Done! Your review has been sent, we'll get back to you shortly at ${answers.email}.`)
+    } else {
+      throw 'Incorrect status code'
     }
   } catch(err) {
     console.log(err)

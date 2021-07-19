@@ -5,9 +5,10 @@ const livestormDomain = require('./livestormDomain')
 
 const mediasUrl = `${livestormDomain}/api/v1/medias`
 let directory = {}
+let verbose = true
 
-
-module.exports = async function uploadFileOrDirectory(givenPath) {
+module.exports = async function uploadFileOrDirectory(givenPath, isVerbose = true) {
+  verbose = isVerbose
   if (fs.lstatSync(givenPath).isDirectory()) {
     if (await getDirectoryToken()) uploadDirectory(givenPath)
   } else {
@@ -27,8 +28,8 @@ async function getDirectoryToken() {
   )
   directory = await response.json()
   if (directory.token) {
-    console.log('Uploading...')
-    console.log(`└── ${directory.url}/`)
+    say('Uploading...')
+    say(`└── ${directory.url}/`)
     return directory.token
   }
 }
@@ -51,7 +52,7 @@ async function uploadFile(file) {
   }
   
   if (directory.token) data.token = directory.token
-  else console.log('Uploading...')
+  else say('Uploading...')
 
 
   const res = await fetch(mediasUrl, {
@@ -62,17 +63,17 @@ async function uploadFile(file) {
 
   if (res.status !== 201) throw new Error('Incorrect response, verify integrity and size.')
 
-  if (directory.token) console.log(`   ├── ✓ ${data.filename}${data.extension}`)
+  if (directory.token) say(`   ├── ✓ ${data.filename}${data.extension}`)
   else {
     const url = (await res.json()).url
-    console.log(`Done ! Your file is available at ${url}`)
+    say(`Done ! Your file is available at ${url}`)
     return url
   }
 }
 
 function securityChecksOK(file) {
   if (fs.statSync(file).size / (1024*1024) > 8) {
-    console.log(`File ${file} size must be inferior to 8MB.`)
+    say(`File ${file} size must be inferior to 8MB.`)
     return false
   }
 
@@ -85,4 +86,10 @@ function securityChecksOK(file) {
   if (dangerousExtensions.includes(path.extname(file))) return false
   if (path.parse(file).name.startsWith('.')) return false
   return true
+}
+
+function say(something) {
+  if (verbose) {
+    console.log(something)
+  }
 }
