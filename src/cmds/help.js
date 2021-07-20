@@ -18,7 +18,7 @@ _  /____/ /  __ |/ / _  /___  ____/ /_  /   / /_/ /_  _, _/_  /  / /
       ['create', 'Generate a new plugin'],
       ['publish <environment>', 'Publish your plugin'],
       ['watch   <environment>', 'Publish your plugin each time you make a change'],
-      ['review', 'Ask Livestorm a review to publish your plugin to our marketplace or access private APIs.'],
+      ['review', 'Ask Livestorm a review to publish your plugin to our marketplace or access private APIs'],
       ['remove  <environment>', 'Unpublish the plugin'],
       ['asset   <file>', 'Upload files and use them in your plugins'],
       ['list [--environment|--api-token]', 'List the published plugins'],
