@@ -16,7 +16,7 @@ function updatePlugin() {
 }
 
 module.exports = function watch() {
-  getLivestormPluginInformation(env)
+  const config = getLivestormPluginInformation(env)
   console.log(`${env ? `Will publish to ${env}, ` : ''}waiting for file change...`)
 
   fs.watch(process.cwd(), updatePlugin)
