@@ -17,6 +17,7 @@ const questions = [
     message: 'What does your plugin need a review for?',
     choices: [
       { title: 'I want to publish it in Livestorm\'s apps marketplace', value: 'marketplace' },
+      { title: 'I want to submit my plugin for the hackathon', value: 'hackathon' },
       { title: 'I need to use the \'allow-same-origin\' flag on an iframe', value: 'allow-same-origin' },
       { title: 'I need to use a private API', value: 'private-api' }
     ],
