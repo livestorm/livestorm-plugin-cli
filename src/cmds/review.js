@@ -75,7 +75,7 @@ module.exports = async function review() {
     if (answers.purposes.find((purpose => purpose == 'marketplace'))) {
       console.log('Syncing plugin code...')
       execSync('livestorm publish production')
-      answers.metadata = require(`${process.cwd()}/marketplace.json`)
+      answers.metadata = config.metadata || require(`${process.cwd()}/marketplace.json`)
     }
 
     const zipUrl = await uploadZip(createZip())
