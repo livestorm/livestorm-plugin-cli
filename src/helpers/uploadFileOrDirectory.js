@@ -7,7 +7,7 @@ const mediasUrl = `${livestormDomain}/api/v1/medias`
 let directory = {}
 let verbose = true
 
-module.exports = async function uploadFileOrDirectory(givenPath, isVerbose = true) {
+async function uploadFileOrDirectory(givenPath, isVerbose = true) {
   verbose = isVerbose
   if (fs.lstatSync(givenPath).isDirectory()) {
     if (await getDirectoryToken()) uploadDirectory(givenPath)
@@ -15,6 +15,8 @@ module.exports = async function uploadFileOrDirectory(givenPath, isVerbose = tru
     return uploadFile(givenPath)
   }
 }
+
+module.exports = uploadFileOrDirectory
 
 async function getDirectoryToken() {
   if (directory.token) return directory.token
