@@ -6,7 +6,7 @@ const nodeWatch = require('node-watch');
 
 
 function updatePlugin(evt, name) {
-  console.log('%s changed.', name);
+  console.log('%s changed', name);
   process.stdout.write('\x1b[0m.\x1b[0m')
 
   const res = execSync(`livestorm publish ${env || ''}`).toString()
