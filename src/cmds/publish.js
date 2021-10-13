@@ -27,8 +27,8 @@ function handleResponse({ status }) {
   if (status === 201 || status === 204) {
     console.log(`Successfully ${status === 201 ? 'created' : 'updated'} plugin 🎉`)
   } else {
-    console.log(status)
-    throw 'update failed'
+    console.log('upload failed with status ' + status)
+    process.exit(1);
   }
 }
 
@@ -36,6 +36,7 @@ function handleNetworkError(err, json) {
   console.log(err)
   console.log(`Failed to send plugin to ${json.endpoint}.`)
   console.log('Make sure your internet connection is working and check https://status.livestorm.co/')
+  process.exit(1);
 }
 
 module.exports = function publish() {
@@ -47,5 +48,6 @@ module.exports = function publish() {
   } catch(err) {
     console.log(err)
     console.log('Are you sure directory is a valid Livestorm plugin ?')
+    process.exit(1);
   }
 }
