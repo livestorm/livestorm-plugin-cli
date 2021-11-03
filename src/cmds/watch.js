@@ -9,12 +9,17 @@ function updatePlugin(evt, name) {
   console.log('%s changed', name);
   process.stdout.write('\x1b[0m.\x1b[0m')
 
-  const res = execSync(`livestorm publish ${env || ''}`).toString()
-  if (res.includes('Successfully')) {
-    process.stdout.write('\x1b[92m.\x1b[32m')
+  try {
+    const res = execSync(`livestorm publish ${env || ''}`).toString()
+    if (res.includes('Successfully')) {
+      process.stdout.write('\x1b[92m.\x1b[32m')
+      console.log('\x1b[0m')
+    } else {
+      throw(res)
+    }
+  } catch(err) {
+    console.log('\x1b[31m', err.stdout.toString())
     console.log('\x1b[0m')
-  } else {
-    console.log(res)
   }
 }
 
