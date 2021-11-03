@@ -9,6 +9,7 @@ const { execSync } = require('child_process')
 const uploadFileOrDirectory = require('../helpers/uploadFileOrDirectory')
 const getLivestormPluginInformation = require('../helpers/getLivestormPluginInformation')
 const livestormDomain = require('../helpers/livestormDomain')
+const validateMetadata = require('../helpers/validateMetadata')
 
 const questions = [
   {
@@ -76,6 +77,7 @@ module.exports = async function review() {
       console.log('Syncing plugin code...')
       execSync('livestorm publish production')
       answers.metadata = config.metadata
+      validateMetadata(config.metadata)
     }
 
     const zipUrl = await uploadZip(createZip())
