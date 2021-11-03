@@ -85,8 +85,14 @@ function securityChecksOK(file) {
   '.osx', '.out', '.paf', '.pif', '.prg', '.ps1', '.reg', '.rgs', '.run', '.scr', '.sct', 
   '.sh', '.shb', '.shs', '.u3p', '.vb', '.vbe', 'vbs' ,'.vbscript', '.workflow', '.ws', '.wsf', '.wsh']
 
-  if (dangerousExtensions.includes(path.extname(file))) return false
-  if (path.parse(file).name.startsWith('.')) return false
+  if (dangerousExtensions.includes(path.extname(file))) {
+    say(`This kind of file "${path.extname(file)}" is not supported.`)
+    return false
+  }
+  if (path.parse(file).name.startsWith('.')) {
+    say(`Incorrect file name, your file name must not start with ".".`)
+    return false
+  }
   return true
 }
 
