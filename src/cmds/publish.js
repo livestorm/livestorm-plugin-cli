@@ -27,7 +27,9 @@ function handleResponse({ status }) {
   if (status === 201 || status === 204) {
     console.log(`Successfully ${status === 201 ? 'created' : 'updated'} plugin 🎉`)
   } else {
-    console.log('upload failed with status ' + status)
+    if (status === 401) console.log('your API token seems to be incorrect. Please verify that it is valid')
+    else if (status === 422) console.log('you must set a "name" property to your environment')
+    else console.log('upload failed with status ' + status)
     process.exit(1);
   }
 }
@@ -46,8 +48,8 @@ module.exports = function publish() {
       build()
     )
   } catch(err) {
-    console.log(err)
-    console.log('Are you sure directory is a valid Livestorm plugin ?')
+    console.log('\x1b[31m', err.output[1].toString())
+    console.log('\x1b[0m', 'Are you sure directory is a valid Livestorm plugin ?')
     process.exit(1);
   }
 }
