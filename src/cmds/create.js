@@ -4,6 +4,8 @@ const prompts = require('prompts')
 const path = require('path')
 const rimraf = require('rimraf')
 
+const defaultMetadata = require('../helpers/defaultMetadata')
+
 const questions = [
   {
     type: 'text',
@@ -63,6 +65,7 @@ module.exports = () => {
       const environments = require(`${pathForPlugin(answers.name)}/environments.json`)
       environments.development.name = answers.name
       environments.development.apiToken = answers.apiToken || ''
+      environments.development.metadata = defaultMetadata(answers)
       fs.writeFileSync(
         `./livestorm-plugin-${answers.name}/environments.json`,
         JSON.stringify(environments, null, 2)
@@ -71,7 +74,7 @@ module.exports = () => {
       execSync(`cd ${pathForPlugin(answers.name)} && git init && git add --a && git commit -m "First commit"`)
 
       console.log('All done 🙌')
-      console.log(`If you need to change any of the pre-given answers feel free to edit ./${directoryNameFor(answers.name)}/package.json`)
+      console.log(`If you need to change any of the pre-given answers feel free to edit ./${directoryNameFor(answers.name)}/environments.json`)
       console.log(`You can start coding by opening ./${directoryNameFor(answers.name)}/index.ts`)
       console.log(`Visit https://github.com/livestorm/livestorm-plugin for documentation`)
     } catch(err) {
