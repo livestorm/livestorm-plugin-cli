@@ -32,6 +32,7 @@ module.exports = function watch() {
     filter: (f, skip) => {
       if (/\/node_modules/.test(f)) return skip;
       if (/\/build/.test(f)) return skip;
+      if (/\/\.git/.test(f)) return skip;
       return true
     },
   }, updatePlugin);    
