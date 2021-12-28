@@ -1,12 +1,12 @@
 const fs = require('fs')
 const { execSync } = require('child_process')
+const nodeWatch = require('node-watch');
+const debounce = require('debounce')
 const getLivestormPluginInformation = require('../helpers/getLivestormPluginInformation')
 const env = process.argv[3]
-const nodeWatch = require('node-watch');
-
 
 function updatePlugin(evt, name) {
-  console.log('%s changed', name);
+  console.log('Updating plugin');
   process.stdout.write('\x1b[0m.\x1b[0m')
 
   try {
@@ -30,10 +30,9 @@ module.exports = function watch() {
   nodeWatch('./', { 
     recursive: true,
     filter: (f, skip) => {
-      if (/\/node_modules/.test(f)) return skip;
-      if (/\/build/.test(f)) return skip;
-      if (/\/\.git/.test(f)) return skip;
+      if (/node_modules/.test(f)) return skip;
+      if (/.git/.test(f)) return skip;
       return true
     },
-  }, updatePlugin);    
+  }, debounce(updatePlugin, 300));    
 }

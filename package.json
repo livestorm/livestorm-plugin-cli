@@ -15,6 +15,7 @@
     "adm-zip": "^0.5.5",
     "cliff": "^0.1.10",
     "command-line-args": "^5.1.1",
+    "debounce": "^1.2.1",
     "node-fetch": "^2.6.1",
     "node-watch": "^0.7.2",
     "prompts": "^2.4.0",
