@@ -7,7 +7,7 @@ const fetch = require('node-fetch')
 const { execSync } = require('child_process')
 
 const uploadFileOrDirectory = require('../helpers/uploadFileOrDirectory')
-const getLivestormPluginInformation = require('../helpers/getLivestormPluginInformation')
+const getPluginConfig = require('../helpers/getPluginConfig')
 const livestormDomain = require('../helpers/livestormDomain')
 const validateMetadata = require('../helpers/validateMetadata')
 
@@ -69,7 +69,7 @@ async function uploadZip(zipFile) {
 
 module.exports = async function review() {
   try {
-    const config = getLivestormPluginInformation('production')
+    const config = getPluginConfig('production')
     console.log(`Starting review process for '${config.name}'…`)
     const answers = await prompts(questions)
 

@@ -2,7 +2,7 @@ const fs = require('fs')
 const { execSync } = require('child_process')
 const nodeWatch = require('node-watch');
 const debounce = require('debounce')
-const getLivestormPluginInformation = require('../helpers/getLivestormPluginInformation')
+const getPluginConfig = require('../helpers/getPluginConfig')
 const env = process.argv[3]
 
 function updatePlugin(evt, name) {
@@ -24,7 +24,7 @@ function updatePlugin(evt, name) {
 }
 
 module.exports = function watch() {
-  getLivestormPluginInformation(env)
+  getPluginConfig(env)
   console.log(`${env ? `Will publish to ${env}, ` : ''}waiting for file change...`)
 
   nodeWatch('./', { 
