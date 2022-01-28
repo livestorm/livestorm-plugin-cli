@@ -6,16 +6,15 @@
   "bin": {
     "livestorm": "index.js"
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "",
   "license": "MIT",
   "dependencies": {
     "adm-zip": "^0.5.5",
     "cliff": "^0.1.10",
     "command-line-args": "^5.1.1",
+    "configstore": "^6.0.0",
     "debounce": "^1.2.1",
+    "minimist": "^1.2.5",
     "node-fetch": "^2.6.1",
     "node-watch": "^0.7.2",
     "prompts": "^2.4.0",

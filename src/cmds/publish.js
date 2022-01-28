@@ -6,6 +6,7 @@ const setLocalProxyIfNeeded = require('../helpers/setLocalProxyIfNeeded')
 const setLocalHostIfNeeded = require('../helpers/setLocalHostIfNeeded')
 
 function sendToLivestormAPI(config, fileContent) {
+  console.log('PluginConfig', config)
   console.log(`Sending plugin to ${config.endpoint}`)
   
   const data = Buffer.from(fileContent).toString('base64')
@@ -49,7 +50,7 @@ module.exports = function publish() {
     )
   } catch(err) {
     console.log('\x1b[31m', err.toString())
-    console.log('\x1b[0m', 'Are you sure directory is a valid Livestorm plugin ?')
+    // console.log('\x1b[0m', 'Are you sure directory is a valid Livestorm plugin ?')
     process.exit(1);
   }
 }

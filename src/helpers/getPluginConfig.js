@@ -18,10 +18,10 @@ module.exports = function getPluginConfig(envName = 'development') {
   try {
     fullPluginConfig = require(`${process.cwd()}/plugin.config.js`)
   } catch(e) {
-    // console.log('pluginConfig error', e)
     if (e.code === 'MODULE_NOT_FOUND') {
       throw 'The plugin conf file is missing.'
     }
+    throw 'The plugin conf file seems broken.'
   }
   // console.log('pluginConfig', pluginConfig)
 
