@@ -6,7 +6,6 @@ const setLocalProxyIfNeeded = require('../helpers/setLocalProxyIfNeeded')
 const setLocalHostIfNeeded = require('../helpers/setLocalHostIfNeeded')
 
 function sendToLivestormAPI(config, fileContent) {
-  console.log('PluginConfig', config)
   console.log(`Sending plugin to ${config.endpoint}`)
   
   const data = Buffer.from(fileContent).toString('base64')
