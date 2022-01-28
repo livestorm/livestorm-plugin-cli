@@ -42,10 +42,10 @@ function handleNetworkError(err, json) {
   process.exit(1);
 }
 
-module.exports = function publish() {
+module.exports = async function publish() {
   try {
     sendToLivestormAPI(
-      getPluginConfig(process.argv[3]),
+      await getPluginConfig(process.argv[3]),
       build()
     )
   } catch(err) {

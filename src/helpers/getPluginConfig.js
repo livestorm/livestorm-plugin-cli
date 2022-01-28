@@ -1,3 +1,6 @@
+const configStore = require('./configStore.js')
+const prompts = require('prompts')
+
 const livestormDomain = require('./livestormDomain')
 
 /**
@@ -12,7 +15,7 @@ const livestormDomain = require('./livestormDomain')
  * Returns the Plugin Config with the targeted env
  * @return {PluginConfig} 
  */
-module.exports = function getPluginConfig(envName = 'development') {
+module.exports = async function getPluginConfig(envName = 'development') {
   let fullPluginConfig = null
 
   try {
@@ -27,9 +30,29 @@ module.exports = function getPluginConfig(envName = 'development') {
 
   const { environments, ...pluginConfig} = fullPluginConfig
 
-  const env = environments[envName]
+  let env = environments[envName]
+  const globalEnv = configStore.get(`envs.${envName}`)
 
-  if (!env) {
+  if (env && globalEnv) {
+    const { selectedEnv }  = await prompts({
+      type: 'select',
+      name: 'selectedEnv',
+      message: `We have found 2 environments for ${envName}. Select the one you want to use`,
+      choices: [
+        { title: 'Local', value: 'local' },
+        { title: 'Global', value: 'global' },
+      ],
+      initial: 1
+      
+    })
+    
+    if (selectedEnv === 'global') {
+      env = {
+        ...env,
+        globalEnv,
+      }
+    }
+  } else if (!env && !globalEnv) {
     throw `Environment ${envName} was not found.`
   }
 

@@ -23,8 +23,8 @@ function updatePlugin(evt, name) {
   }
 }
 
-module.exports = function watch() {
-  getPluginConfig(env)
+module.exports = async function watch() {
+  await getPluginConfig(env)
   console.log(`${env ? `Will publish to ${env}, ` : ''}waiting for file change...`)
 
   nodeWatch('./', { 
