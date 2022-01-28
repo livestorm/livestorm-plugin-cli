@@ -1,18 +1,19 @@
 const minimist = require('minimist')
-// const Configstore = require('configstore');
+const configStore = require('../helpers/configStore.js')
 
 async function add(envName, data) {
   console.log('-> add',  envName, data)
-  const { default: Configstore } = await import('configstore')
-  const config = new Configstore('livestorm-cli');
-  config.set(`envs.${envName}`, data)
+  configStore.set(`envs.${envName}`, data)
 }
 
 async function remove(envName) {
   console.log('-> remove',  envName)
-  const { default: Configstore } = await import('configstore')
-  const config = new Configstore('livestorm-cli')
-  config.delete(`envs.${envName}`)
+  configStore.delete(`envs.${envName}`)
+}
+
+async function list() {
+  console.log('-> list')
+  console.log(configStore.get('envs'))
 }
 
 module.exports = function env() {
@@ -24,5 +25,7 @@ module.exports = function env() {
     add(envName, argv)
   } else if (cmd === 'remove') {
     remove(envName)
+  } else if (cmd === 'list') {
+    list()
   }
 }
