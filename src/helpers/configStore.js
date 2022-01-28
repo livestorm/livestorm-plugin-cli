@@ -1,3 +1,4 @@
+const fs = require('fs')
 const Configstore = require('configstore');
 
 const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
