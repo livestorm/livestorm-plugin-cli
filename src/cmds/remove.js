@@ -4,10 +4,10 @@ const prompts = require('prompts')
 
 const setLocalProxyIfNeeded = require('../helpers/setLocalProxyIfNeeded')
 const setLocalHostIfNeeded = require('../helpers/setLocalHostIfNeeded')
-const getPluginConfig = require('../helpers/getPluginConfig')
+const getLivestormConfig = require('../helpers/getLivestormConfig')
 
 module.exports = function remove() {
-  const config = getPluginConfig(env)
+  const config = getLivestormConfig(env)
 
   if (!config.name) return console.log('The specified environnement does not have a name.')
 

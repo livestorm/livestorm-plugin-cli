@@ -4,7 +4,7 @@ const prompts = require('prompts')
 const livestormDomain = require('./livestormDomain')
 
 /**
- * @typedef {Object} PluginConfig
+ * @typedef {Object} LivestormConfig
  * @property {string} name - The name of the plugin
  * @property {Object} metadata - The metadata
  * @property {string} apiToken - The API KEY
@@ -12,23 +12,22 @@ const livestormDomain = require('./livestormDomain')
  */
 
 /**
- * Returns the Plugin Config with the targeted env
- * @return {PluginConfig} 
+ * Returns the Livestorm Config with the targeted env
+ * @return {LivestormConfig} 
  */
-module.exports = async function getPluginConfig(envName = 'development') {
-  let fullPluginConfig = null
+module.exports = async function getLivestormConfig(envName = 'development') {
+  let fullLivestormConfig = null
 
   try {
-    fullPluginConfig = require(`${process.cwd()}/plugin.config.js`)
+    fullLivestormConfig = require(`${process.cwd()}/livestorm.config.js`)
   } catch(e) {
     if (e.code === 'MODULE_NOT_FOUND') {
-      throw 'The plugin conf file is missing.'
+      throw 'The livestorm conf file is missing.'
     }
-    throw 'The plugin conf file seems broken.'
+    throw 'The livestorm conf file seems broken.'
   }
-  // console.log('pluginConfig', pluginConfig)
 
-  const { environments, ...pluginConfig} = fullPluginConfig
+  const { environments, ...livestormConfig} = fullLivestormConfig
 
   let env = environments[envName]
   const globalEnv = configStore.get(`envs.${envName}`)
@@ -59,7 +58,7 @@ module.exports = async function getPluginConfig(envName = 'development') {
   env.endpoint ||= livestormDomain
 
   return {
-    ...pluginConfig,
+    ...livestormConfig,
     ...env
   }
 

@@ -1,7 +1,7 @@
 const build = require('./build')
 const fetch = require('node-fetch')
 
-const getPluginConfig = require('../helpers/getPluginConfig')
+const getLivestormConfig = require('../helpers/getLivestormConfig')
 const setLocalProxyIfNeeded = require('../helpers/setLocalProxyIfNeeded')
 const setLocalHostIfNeeded = require('../helpers/setLocalHostIfNeeded')
 
@@ -45,7 +45,7 @@ function handleNetworkError(err, json) {
 module.exports = async function publish() {
   try {
     sendToLivestormAPI(
-      await getPluginConfig(process.argv[3]),
+      await getLivestormConfig(process.argv[3]),
       build()
     )
   } catch(err) {

@@ -1,6 +1,6 @@
 const { default: fetch } = require('node-fetch')
 const commandLineArgs = require('command-line-args')
-const getPluginConfig = require('../helpers/getPluginConfig')
+const getLivestormConfig = require('../helpers/getLivestormConfig')
 const setLocalProxyIfNeeded = require('../helpers/setLocalProxyIfNeeded')
 const setLocalHostIfNeeded = require('../helpers/setLocalHostIfNeeded')
 const cliff = require('cliff')
@@ -32,7 +32,7 @@ module.exports = () => {
 
 function getConfigBasedOnInput(options) {
   if (options.environment) {
-    return getPluginConfig(options.environment)
+    return getLivestormConfig(options.environment)
   } else if (options['api-token']) {
     return { endpoint: 'https://plugins.livestorm.co', apiToken: options['api-token'] }
   } else {
