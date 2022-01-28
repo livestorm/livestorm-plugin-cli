@@ -1,15 +1,15 @@
 const minimist = require('minimist')
 const configStore = require('../helpers/configStore.js')
 
-async function add(envName, data) {
+function add(envName, data) {
   configStore.set(`envs.${envName}`, data)
 }
 
-async function remove(envName) {
+function remove(envName) {
   configStore.delete(`envs.${envName}`)
 }
 
-async function list() {
+function list() {
   console.log(configStore.get('envs'))
 }
 
