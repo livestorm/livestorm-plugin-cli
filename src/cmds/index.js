@@ -7,7 +7,7 @@ const build = require('./build')
 const asset = require('./asset')
 const help = require('./help')
 const list = require('./list')
-const env = require('./env')
+const envs = require('./envs')
 
 module.exports = {
   publish,
@@ -19,5 +19,5 @@ module.exports = {
   asset,
   help,
   list,
-  env,
+  envs,
 }

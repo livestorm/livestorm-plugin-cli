@@ -16,8 +16,8 @@ async function list() {
   console.log(configStore.get('envs'))
 }
 
-module.exports = function env() {
-  console.log('env')
+module.exports = function envs() {
+  console.log('envs')
   const { _, ...argv } = minimist(process.argv.slice(2))
   const [ cmd, envName] = _
 
