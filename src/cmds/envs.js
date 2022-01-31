@@ -1,4 +1,3 @@
-const minimist = require('minimist')
 const cliff = require('cliff')
 const configStore = require('../helpers/configStore.js')
 
@@ -25,7 +24,7 @@ function list() {
   /**
    * @type { import('../../types').Config['environments'] }
    */
-  const envs = configStore.get('envs')
+  const envs = configStore.get('envs') || {}
 
   const rows = [
     ['name', ...ENV_FIELDS],
@@ -34,12 +33,12 @@ function list() {
   console.log(cliff.stringifyRows(rows, ['blue']))
 }
 
-module.exports = function envs() {
-  const { _, ...argv } = minimist(process.argv.slice(2))
+module.exports = function envs(argv) {
+  const { _, ...data } = argv
   const [cmd, envName] = _
 
   if (cmd === 'add') {
-    add(envName, argv)
+    add(envName, data)
   } else if (cmd === 'remove') {
     remove(envName)
   } else if (cmd === 'list') {
