@@ -59,7 +59,7 @@ module.exports = async function getLivestormConfig(envName = 'development') {
       ...env,
       ...globalEnv,
     }
-  } else if (!env) {
+  } else {
     throw `Environment ${envName} was not found.`
   }
 
