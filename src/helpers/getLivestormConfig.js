@@ -4,18 +4,16 @@ const prompts = require('prompts')
 const livestormDomain = require('./livestormDomain')
 
 /**
- * @typedef {Object} LivestormConfig
- * @property {string} name - The name of the plugin
- * @property {Object} metadata - The metadata
- * @property {string} apiToken - The API KEY
- * @property {string} endpoint - The endpoint
+ * 
+ * @typedef { import('../types/LivestormConfig').Config } LivestormConfig
+ * @typedef { import('../types/LivestormConfig').Environment } LivestormEnvironment
  */
 
-/**
- * Returns the Livestorm Config with the targeted env
- * @return {LivestormConfig} 
- */
 module.exports = async function getLivestormConfig(envName = 'development') {
+  /**
+   * 
+   * @type { (LivestormConfig }
+   */
   let livestormConfig = null
 
   try {
@@ -26,10 +24,16 @@ module.exports = async function getLivestormConfig(envName = 'development') {
     }
     throw 'The livestorm conf file seems broken.'
   }
+  
 
   const { environments, ...livestormConfigWithoutEnvs} = livestormConfig
 
   let env = environments[envName]
+
+  /**
+   * 
+   * @type { LivestormEnvironment }
+   */
   const globalEnv = configStore.get(`envs.${envName}`)
 
   if (env && globalEnv) {
@@ -61,26 +65,4 @@ module.exports = async function getLivestormConfig(envName = 'development') {
     ...livestormConfigWithoutEnvs,
     ...env
   }
-
-  // let json = require(`${process.cwd()}/package.json`)
-  // let foundEnv = null
-  // json.livestorm = json.livestorm || require(`${process.cwd()}/environments.json`)
-
-  // if (!json.livestorm) {
-  //   throw 'Not a livestorm plugin'
-  // }
-  // console.log(`Livestorm plugin ${json.name} in version ${json.version} detected`)
-
-  // if (envName === 'development' && !json.livestorm[envName] && (json.livestorm.apiToken || json.livestorm.apiKey)) {
-  //   foundEnv = json.livestorm
-  // } else if (json.livestorm[envName]) {
-  //   foundEnv = json.livestorm[envName]
-  // } else {
-  //   console.log(`Environment ${envName} not found in package.json. Make sure to define the corresponding env under the key "${envName}".`)
-  //   process.exit()
-  // }
-
-  // if (!foundEnv.endpoint) foundEnv.endpoint =  livestormDomain
-  // console.log('foundEnv', foundEnv)
-  // return 1
 }
