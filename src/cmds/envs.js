@@ -2,7 +2,7 @@ const cliff = require('cliff')
 const configStore = require('../helpers/configStore.js')
 
 const ENV_FIELDS = [
-  'apiToken',
+  'api-token',
   'endpoint',
   'metadata',
   'permissions',

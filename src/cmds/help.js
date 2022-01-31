@@ -22,7 +22,7 @@ _  /____/ /  __ |/ / _  /___  ____/ /_  /   / /_/ /_  _, _/_  /  / /
       ['remove  <environment>', 'Unpublish the plugin'],
       ['asset   <file>', 'Upload files and use them in your plugins'],
       ['list [--environment|--api-token]', 'List the published plugins'],
-      ['envs [add|remove|list] [--environment|--api-token]', 'Manage your environments'],
+      ['envs [add|remove|list] [--api-token|--endpoint]', 'Manage your environments'],
     ], ['blue', 'blue'])
   )
 

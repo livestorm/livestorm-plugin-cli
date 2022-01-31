@@ -10,5 +10,5 @@ if (!command || !availableCommands[command]) {
   availableCommands.help()
   process.exit(1)
 }
-console.log(process.argv)
+
 availableCommands[command](minimist(process.argv.slice(3)))

@@ -49,7 +49,6 @@ module.exports = async function publish() {
     )
   } catch(err) {
     console.log('\x1b[31m', err.toString())
-    // console.log('\x1b[0m', 'Are you sure directory is a valid Livestorm plugin ?')
     process.exit(1);
   }
 }

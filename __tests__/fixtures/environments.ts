@@ -1,5 +1,5 @@
 export const environment = ['boron', {
-        'apiToken': "f2526bba-82b5-11ec-a8a3-0242ac120002",
+        'api-token': "f2526bba-82b5-11ec-a8a3-0242ac120002",
         'endpoint': 'https://plugins.livestorm.fake',
         "permissions": {
             "storage": {
