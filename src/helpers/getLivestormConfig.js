@@ -51,10 +51,15 @@ module.exports = async function getLivestormConfig(envName = 'development') {
     if (selectedEnv === 'global') {
       env = {
         ...env,
-        globalEnv,
+        ...globalEnv,
       }
     }
-  } else if (!env && !globalEnv) {
+  } else if (globalEnv) {
+    env = {
+      ...env,
+      ...globalEnv,
+    }
+  } else if (!env) {
     throw `Environment ${envName} was not found.`
   }
 
