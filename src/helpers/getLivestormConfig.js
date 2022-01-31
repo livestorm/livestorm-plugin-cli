@@ -65,6 +65,14 @@ module.exports = async function getLivestormConfig(envName = 'development') {
 
   env.endpoint ||= livestormDomain
 
+  if (env['api-token']) {
+    env.apiToken = env['api-token']
+  }
+
+  if (!env.apiToken) {
+    throw `The API Token is missing.`
+  }
+
   return {
     ...livestormConfigWithoutEnvs,
     ...env
