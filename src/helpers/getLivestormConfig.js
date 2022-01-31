@@ -5,8 +5,8 @@ const livestormDomain = require('./livestormDomain')
 
 /**
  * 
- * @typedef { import('../types/LivestormConfig').Config } LivestormConfig
- * @typedef { import('../types/LivestormConfig').Environment } LivestormEnvironment
+ * @typedef { import('../../types').Config } LivestormConfig
+ * @typedef { import('../../types').Environment } LivestormEnvironment
  */
 
 module.exports = async function getLivestormConfig(envName = 'development') {
@@ -24,7 +24,6 @@ module.exports = async function getLivestormConfig(envName = 'development') {
     }
     throw 'The livestorm conf file seems broken.'
   }
-  
 
   const { environments, ...livestormConfigWithoutEnvs} = livestormConfig
 

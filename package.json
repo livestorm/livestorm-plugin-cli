@@ -19,5 +19,6 @@
     "node-watch": "^0.7.2",
     "prompts": "^2.4.0",
     "rimraf": "^3.0.2"
-  }
+  },
+  "typings": "types/index.d.ts"
 }

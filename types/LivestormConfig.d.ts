@@ -1,7 +1,7 @@
 export type Environment =  {
     endpoint: string;
     apiToken: string;
-} & Omit<LivestormConfig, 'environments'>
+} & Omit<Config, 'environments'>
 
 export interface Config {
     name: string;
