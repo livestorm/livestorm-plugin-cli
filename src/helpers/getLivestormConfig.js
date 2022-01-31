@@ -16,10 +16,10 @@ const livestormDomain = require('./livestormDomain')
  * @return {LivestormConfig} 
  */
 module.exports = async function getLivestormConfig(envName = 'development') {
-  let fullLivestormConfig = null
+  let livestormConfig = null
 
   try {
-    fullLivestormConfig = require(`${process.cwd()}/livestorm.config.js`)
+    livestormConfig = require(`${process.cwd()}/livestorm.config.js`)
   } catch(e) {
     if (e.code === 'MODULE_NOT_FOUND') {
       throw 'The livestorm conf file is missing.'
@@ -27,7 +27,7 @@ module.exports = async function getLivestormConfig(envName = 'development') {
     throw 'The livestorm conf file seems broken.'
   }
 
-  const { environments, ...livestormConfig} = fullLivestormConfig
+  const { environments, ...livestormConfigWithoutEnvs} = livestormConfig
 
   let env = environments[envName]
   const globalEnv = configStore.get(`envs.${envName}`)
@@ -58,7 +58,7 @@ module.exports = async function getLivestormConfig(envName = 'development') {
   env.endpoint ||= livestormDomain
 
   return {
-    ...livestormConfig,
+    ...livestormConfigWithoutEnvs,
     ...env
   }
 
