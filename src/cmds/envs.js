@@ -22,7 +22,7 @@ function remove(envName) {
 
 function list() {
   /**
-   * @type { import('../../types').Config['environments'] }
+   * @type { import('../../types').ExtendedConfig['environments'] }
    */
   const envs = configStore.get('envs') || {}
 
