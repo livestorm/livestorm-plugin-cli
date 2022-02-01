@@ -69,7 +69,7 @@ async function uploadZip(zipFile) {
 
 module.exports = async function review() {
   try {
-    const config = getLivestormConfig('production')
+    const config = await getLivestormConfig()
     console.log(`Starting review process for '${config.name}'…`)
     const answers = await prompts(questions)
 

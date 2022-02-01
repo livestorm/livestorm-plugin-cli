@@ -6,14 +6,14 @@ const setLocalHostIfNeeded = require('../helpers/setLocalHostIfNeeded')
 const cliff = require('cliff')
 
 
-module.exports = () => {
+module.exports = async () => {
   const options = commandLineArgs([
     { name: 'list', defaultOption: true },
     { name: 'environment', alias: 'e', type: String },
     { name: 'api-token', alias: 't', type: String },
   ])
   
-  const config = getConfigBasedOnInput(options)
+  const config = await getConfigBasedOnInput(options)
   console.log('Fetching plugins corresponding to the organization linked with the API token...\n')
   
   fetch(`${setLocalProxyIfNeeded(config)}/api/v1/plugins`, {
@@ -30,9 +30,16 @@ module.exports = () => {
     .then((json) => handleResponse(json))
 }
 
-function getConfigBasedOnInput(options) {
-  if (options.environment) {
-    return getLivestormConfig(options.environment)
+async function getConfigBasedOnInput(options) {
+  if (options.environment || !options['api-token']) {
+    let config
+    try {
+      config = await getLivestormConfig(options.environment)
+    } catch(err) {
+      console.log('\x1b[31m', err.toString())
+      process.exit(1);
+    }
+    return config
   } else if (options['api-token']) {
     return { endpoint: 'https://plugins.livestorm.co', apiToken: options['api-token'] }
   } else {

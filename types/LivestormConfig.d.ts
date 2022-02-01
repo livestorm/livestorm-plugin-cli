@@ -1,11 +1,6 @@
 import { Translatable } from './Translatable'
 
-export type Environment = {
-    endpoint: string;
-    apiToken: string;
-} & Omit<Config, 'environments'>
-
-export type Metadata = {
+type Metadata = {
     logo: string;
     translations: {
         title: Translatable,
@@ -13,10 +8,21 @@ export type Metadata = {
     }
 }
 
-export interface Config {
+type Permissions = {
+    [api: string]: {
+        [apiKey: string]: {
+            [permission: string]: ['teamMembers']
+        }
+    }
+}
+export default interface Config {
     name: string;
+    apiToken: string;
     metadata: Metadata;
-    permissions: [];
-    recorded: boolean;
-    environments: { [envName: string]: Environment };
+    endpoint?: string;
+    permissions?: Permissions;
+    recorded?: boolean;
+}
+export type ExtendedConfig = Config & {
+    environments: { [envName: string]: Config}
 }

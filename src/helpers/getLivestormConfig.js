@@ -2,80 +2,106 @@ const configStore = require('./configStore.js')
 const prompts = require('prompts')
 
 const livestormDomain = require('./livestormDomain')
+const { getLivestormConfig: getRetroLivestormConfig } = require('./retroCompatibility')
 
 /**
  * 
+ * @typedef { import('../../types').ExtendedConfig } LivestormExtendedConfig
  * @typedef { import('../../types').Config } LivestormConfig
- * @typedef { import('../../types').Environment } LivestormEnvironment
  */
 
-module.exports = async function getLivestormConfig(envName = 'development') {
+module.exports = async function getLivestormConfig(envName) {
   /**
    * 
-   * @type { (LivestormConfig }
+   * @type { LivestormExtendedConfig }
    */
-  let livestormConfig = null
+  let livestormExtendedConfig = null
+  let noLivestormExtendedConfig = false
 
   try {
-    livestormConfig = require(`${process.cwd()}/livestorm.config.js`)
-  } catch(e) {
+    livestormExtendedConfig = require(`${process.cwd()}/livestorm.config.js`)
+  } catch (e) {
     if (e.code === 'MODULE_NOT_FOUND') {
+      noLivestormExtendedConfig = true
+    } else {
+      throw 'The livestorm conf file seems broken.'
+    }
+  }
+
+  // Check the retro Livestorm Config (environments.json)
+  if (noLivestormExtendedConfig) {
+    /**
+     * 
+     * @type { LivestormConfig }
+     */
+    const retroLivestormConfig = getRetroLivestormConfig(envName)
+
+    if (retroLivestormConfig) {
+      console.warn('Environments.json is deprecated. Please use livestorm.config.js instead.')
+      return retroLivestormConfig
+    } else {
       throw 'The livestorm conf file is missing.'
     }
-    throw 'The livestorm conf file seems broken.'
   }
 
-  const { environments, ...livestormConfigWithoutEnvs} = livestormConfig
+  const { environments, ...livestormConfig } = livestormExtendedConfig
 
-  let env = environments?.[envName]
+  if (envName) {
 
-  /**
-   * 
-   * @type { LivestormEnvironment }
-   */
-  const globalEnv = configStore.get(`envs.${envName}`)
+    let envConfig = environments?.[envName]
 
-  let selectedEnv
+    /**
+     * 
+     * @type { LivestormConfig }
+     */
+    const globalEnvConfig = configStore.get(`envs.${envName}`)
 
-  if (env && globalEnv) {
-    const answser  = await prompts({
-      type: 'select',
-      name: 'selectedEnv',
-      message: `We have found 2 environments for ${envName}. Select the one you want to use`,
-      choices: [
-        { title: 'Local', value: 'local' },
-        { title: 'Global', value: 'global' },
-      ],
-      initial: 1
-      
-    })
+    /**
+     * 
+     * @type { ('local' | 'global') }
+     */
+    let selectedEnvConf
 
-    selectedEnv = answser.selectedEnv
-  }
+    if (envConfig && globalEnvConfig) {
+      const answser = await prompts({
+        type: 'select',
+        name: 'selectedEnvConf',
+        message: `We have found 2 configurations for ${envName}. Select the one you want to use`,
+        choices: [
+          { title: 'Local', value: 'local' },
+          { title: 'Global', value: 'global' },
+        ],
+        initial: 1
 
-  if (selectedEnv === 'global' || (!env && globalEnv)) {
-    env = {
-      ...env,
-      ...globalEnv,
+      })
+
+      selectedEnvConf = answser.selectedEnvConf
     }
-  }
-  
-  if (!env) {
-    throw `Environment ${envName} was not found.`
+
+    if (selectedEnvConf === 'global' || (!envConfig && globalEnvConfig)) {
+      envConfig = {
+        ...envConfig,
+        ...globalEnvConfig,
+      }
+    }
+
+    if (!envConfig) {
+      throw `There is no configuration for the environment ${envName}. Please a conf under the key "${envName}".`
+    }
+
+    if (envConfig['api-token']) {
+      envConfig.apiToken = envConfig['api-token']
+      delete envConfig['api-token']
+    }
+
+    Object.assign(livestormConfig, envConfig)  
   }
 
-  env.endpoint ||= livestormDomain
+  livestormConfig.endpoint ||= livestormDomain
 
-  if (env['api-token']) {
-    env.apiToken = env['api-token']
-  }
-
-  if (!env.apiToken) {
+  if (!livestormConfig.apiToken) {
     throw `The API Token is missing.`
   }
 
-  return {
-    ...livestormConfigWithoutEnvs,
-    ...env
-  }
+  return livestormConfig
 }

@@ -1,6 +1,6 @@
-import { Environment, Config } from './LivestormConfig'
+import Config, { ExtendedConfig} from './LivestormConfig'
 
 export {
-    Environment,
-    Config
+    Config,
+    ExtendedConfig
 }
