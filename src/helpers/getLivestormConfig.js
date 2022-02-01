@@ -35,8 +35,10 @@ module.exports = async function getLivestormConfig(envName = 'development') {
    */
   const globalEnv = configStore.get(`envs.${envName}`)
 
+  let selectedEnv
+
   if (env && globalEnv) {
-    const { selectedEnv }  = await prompts({
+    const answser  = await prompts({
       type: 'select',
       name: 'selectedEnv',
       message: `We have found 2 environments for ${envName}. Select the one you want to use`,
@@ -47,19 +49,18 @@ module.exports = async function getLivestormConfig(envName = 'development') {
       initial: 1
       
     })
-    
-    if (selectedEnv === 'global') {
-      env = {
-        ...env,
-        ...globalEnv,
-      }
-    }
-  } else if (globalEnv) {
+
+    selectedEnv = answser.selectedEnv
+  }
+
+  if (selectedEnv === 'global' || (!env && globalEnv)) {
     env = {
       ...env,
       ...globalEnv,
     }
-  } else {
+  }
+  
+  if (!env) {
     throw `Environment ${envName} was not found.`
   }
 
