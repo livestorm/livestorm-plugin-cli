@@ -27,7 +27,7 @@ module.exports = async function getLivestormConfig(envName = 'development') {
 
   const { environments, ...livestormConfigWithoutEnvs} = livestormConfig
 
-  let env = environments[envName]
+  let env = environments?.[envName]
 
   /**
    * 
