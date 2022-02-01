@@ -99,6 +99,10 @@ module.exports = async function getLivestormConfig(envName) {
 
   livestormConfig.endpoint ||= livestormDomain
 
+  if (!livestormConfig.name) {
+    throw `The name is missing.`
+  }
+
   if (!livestormConfig.apiToken) {
     throw `The API Token is missing.`
   }
