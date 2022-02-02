@@ -8,7 +8,7 @@ function updatePlugin(evt, name) {
   process.stdout.write('\x1b[0m.\x1b[0m')
 
   try {
-    const res = execSync(`livestormdev publish ${env || ''}`).toString()
+    const res = execSync(`livestorm publish ${env || ''}`).toString()
     if (res.includes('Successfully')) {
       process.stdout.write('\x1b[92m.\x1b[32m')
       console.log('\x1b[0m')
