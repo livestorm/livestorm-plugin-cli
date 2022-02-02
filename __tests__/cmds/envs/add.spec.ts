@@ -1,19 +1,19 @@
 import configStore from 'configstore'
 import envs from '../../../src/cmds/envs'
 
-import { fromConfigStore } from '../../fixtures/configs'
+import { fromEnvsAddCmd } from '../../fixtures/configs'
 
 jest.mock('configstore');
 
 const mockedConfigstore = jest.mocked(configStore, true)
 
 describe('Add command', () => {
-    const [ envName, data ] = ['boron', fromConfigStore]
+    const envName = 'boron'
+    const set = mockedConfigstore.mock.instances[0].set as jest.Mock
     envs({
         _: ['add', envName],
-        ...data
+        ...fromEnvsAddCmd
     })
-    const set = mockedConfigstore.mock.instances[0].set as jest.Mock
 
     it('should call correctly the config store to set an entry', () => {
         expect(set).toHaveBeenCalled()
@@ -21,12 +21,20 @@ describe('Add command', () => {
         const [ key, config ] = set.mock.calls[0]
 
         expect(key).toBe(`envs.${envName}`)
-        expect(config).toStrictEqual(data)
+
+        const output = {
+            ...fromEnvsAddCmd
+        }
+
+        // @ts-ignore
+        output.apiToken = fromEnvsAddCmd['api-token']
+        delete output['api-token']
+        expect(config).toStrictEqual(output)
     });
 
     it('should update correctly an entry in the config store ', () => {
         const dataTopdate = {
-            ...data,
+            ...fromEnvsAddCmd,
             endpoint: 'https://endpoint.fake'
         }
         envs({
@@ -37,6 +45,15 @@ describe('Add command', () => {
         const [ key, config ] = set.mock.calls[1]
 
         expect(key).toBe(`envs.${envName}`)
-        expect(config).toStrictEqual(dataTopdate)
+
+        const output = {
+            ...fromEnvsAddCmd,
+            ...dataTopdate
+        }
+
+        // @ts-ignore
+        output.apiToken = fromEnvsAddCmd['api-token']
+        delete output['api-token']
+        expect(config).toStrictEqual(output)
     });
 })

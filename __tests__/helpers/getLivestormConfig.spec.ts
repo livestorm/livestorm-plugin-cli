@@ -97,8 +97,7 @@ describe('The helper to get the livestorm config', () => {
 
             expect(config).toStrictEqual({
                 ...baseConfig,
-                apiToken: fromConfigStore['api-token'],
-                endpoint: fromConfigStore['endpoint'],
+                ...fromConfigStore
             })
         })
 
@@ -125,8 +124,7 @@ describe('The helper to get the livestorm config', () => {
 
             expect(config).toStrictEqual({
                 ...baseConfig,
-                apiToken: fromConfigStore['api-token'],
-                endpoint: fromConfigStore['endpoint'],
+                ...fromConfigStore
             })
         })
 

@@ -85,11 +85,6 @@ module.exports = async function getLivestormConfig(envName) {
       throw `There is no configuration for the environment ${envName}. Please a conf under the key "${envName}".`
     }
 
-    if (envConfig['api-token']) {
-      envConfig.apiToken = envConfig['api-token']
-      delete envConfig['api-token']
-    }
-
     Object.assign(livestormConfig, envConfig)  
   }
 

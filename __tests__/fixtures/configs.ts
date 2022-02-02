@@ -29,8 +29,15 @@ const baseConfig = {
 export default baseConfig
 
 const fromConfigStore = {
-    'api-token': "fromConfigStoreApiToken",
-    'endpoint': 'fromConfigStoreEndpoint'
+    'apiToken': "fromConfigStoreApiToken",
+    'endpoint': 'fromConfigStoreEndpoint',
+    'recorded': false
+}
+
+const fromEnvsAddCmd = {
+    'api-token': "fromEnvsAddCmdApiToken",
+    'endpoint': 'fromEnvsAddCmdEndpoint',
+    'recorded': false
 }
 
 const withEnv = {
@@ -39,12 +46,12 @@ const withEnv = {
        fakeEnv: {
         'apiToken': "withEnvEndpointApiToken",
         'endpoint': 'withEnvEndpoint',
-        'recorded': true
        }
     }
 }
 
 export {
     fromConfigStore,
+    fromEnvsAddCmd,
     withEnv
 }

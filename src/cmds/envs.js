@@ -2,7 +2,7 @@ const cliff = require('cliff')
 const configStore = require('../helpers/configStore.js')
 
 const ENV_CONFIG_FIELDS = [
-  'api-token',
+  'apiToken',
   'endpoint',
   'metadata',
   'permissions',
@@ -10,12 +10,18 @@ const ENV_CONFIG_FIELDS = [
 ]
 
 function add(envName, data) {
-  configStore.set(`envs.${envName}`, ENV_CONFIG_FIELDS.reduce((env, key) => {
-    if (data[key]) {
+  const fileredData = ENV_CONFIG_FIELDS.reduce((env, key) => {
+    if (key in data) {
       env[key] = data[key]
     }
     return env
-  }, {}))
+  }, {})
+
+  if (data['api-token']) {
+    fileredData.apiToken = data['api-token']
+  }
+
+  configStore.set(`envs.${envName}`, fileredData)
 }
 
 function remove(envName) {
