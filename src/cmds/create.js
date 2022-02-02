@@ -44,40 +44,40 @@ module.exports = () => {
     try {
       if (!answers.name || !answers.version) return
       console.log('Creating plugin...')
-      execSync(`git clone https://github.com/livestorm/livestorm-plugin-boilerplate.git livestorm-plugin-${answers.name}`)
+      execSync(`git clone -b liv-6574-update-the-plugin-boilerplate-to-match https://github.com/livestorm/livestorm-plugin-boilerplate.git livestorm-plugin-${answers.name}`)
 
       rimraf.sync(path.join(pathForPlugin(answers.name), '.git'))
-      
-      
+
+
       const defaultData = require(`${pathForPlugin(answers.name)}/package.json`)
-      
+
       defaultData.name = answers.name
       defaultData.version = answers.version
       defaultData.description = answers.publicDescription || ''
-      
+
       execSync(`cd ${pathForPlugin(answers.name)} && yarn`)
-      
+
       fs.writeFileSync(
         `./livestorm-plugin-${answers.name}/package.json`,
         JSON.stringify(defaultData, null, 2)
       )
 
-      const environments = require(`${pathForPlugin(answers.name)}/environments.json`)
-      environments.development.name = answers.name
-      environments.development.apiToken = answers.apiToken || ''
-      environments.development.metadata = defaultMetadata(answers)
+      const config = require(`${pathForPlugin(answers.name)}/livestorm.config.js`)
+      config.name = answers.name
+      config.apiToken = answers.apiToken || ''
+      config.metadata = defaultMetadata(answers)
       fs.writeFileSync(
-        `./livestorm-plugin-${answers.name}/environments.json`,
-        JSON.stringify(environments, null, 2)
+        `./livestorm-plugin-${answers.name}/livestorm.config.js`,
+        `module.exports = ${JSON.stringify(config, null, 2)}`
       )
 
       execSync(`cd ${pathForPlugin(answers.name)} && git init && git add --a && git commit -m "First commit"`)
 
       console.log('All done 🙌')
-      console.log(`If you need to change any of the pre-given answers feel free to edit ./${directoryNameFor(answers.name)}/environments.json`)
+      console.log(`If you need to change any of the pre-given answers feel free to edit ./${directoryNameFor(answers.name)}/livestorm.config.js`)
       console.log(`You can start coding by opening ./${directoryNameFor(answers.name)}/index.ts`)
       console.log(`Visit https://github.com/livestorm/livestorm-plugin for documentation`)
-    } catch(err) {
+    } catch (err) {
       rimraf(pathForPlugin(answers.name))
       console.log('Oops, an error happened. Please drop us an email with the error detail.')
     }
