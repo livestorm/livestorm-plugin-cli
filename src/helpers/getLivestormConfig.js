@@ -1,5 +1,6 @@
 const configStore = require('./configStore.js')
 const prompts = require('prompts')
+const fs = require('fs')
 
 const livestormDomain = require('./livestormDomain')
 const { getLivestormConfig: getRetroLivestormConfig } = require('./retroCompatibility')
@@ -30,15 +31,17 @@ module.exports = async function getLivestormConfig(envName) {
 
   // Check the retro Livestorm Config (environments.json)
   if (noLivestormExtendedConfig) {
-    /**
-     * 
-     * @type { LivestormConfig }
-     */
-    const retroLivestormConfig = getRetroLivestormConfig(envName)
-
-    if (retroLivestormConfig) {
-      console.warn('Environments.json is deprecated. Please use livestorm.config.js instead.')
-      return retroLivestormConfig
+    if (fs.existsSync(`${process.cwd()}/environments.json`)) {
+      /**
+       * 
+       * @type { LivestormConfig }
+       */
+      const retroLivestormConfig = getRetroLivestormConfig(envName)
+  
+      if (retroLivestormConfig) {
+        console.warn('Environments.json is deprecated. Please use livestorm.config.js instead.')
+        return retroLivestormConfig
+      }
     } else {
       throw 'The livestorm conf file is missing.'
     }

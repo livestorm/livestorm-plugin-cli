@@ -1,14 +1,12 @@
 import configStore from 'configstore'
 import envs from '../../../src/cmds/envs'
 
-import { environment } from '../../fixtures/environments'
-
 jest.mock('configstore');
 
 const mockedConfigstore = jest.mocked(configStore, true)
 
 describe('Remove command', () => {
-    const [ envName ] = environment
+    const envName = 'boron'
     envs({
         _: ['remove', envName]
     })

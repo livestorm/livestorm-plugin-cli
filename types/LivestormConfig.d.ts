@@ -18,7 +18,7 @@ type Permissions = {
 export default interface Config {
     name: string;
     apiToken: string;
-    metadata: Metadata;
+    metadata?: Metadata;
     endpoint?: string;
     permissions?: Permissions;
     recorded?: boolean;

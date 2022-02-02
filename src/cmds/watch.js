@@ -1,7 +1,6 @@
 const { execSync } = require('child_process')
 const nodeWatch = require('node-watch');
 const debounce = require('debounce')
-const getLivestormConfig = require('../helpers/getLivestormConfig')
 const env = process.argv[3]
 
 function updatePlugin(evt, name) {
@@ -9,7 +8,7 @@ function updatePlugin(evt, name) {
   process.stdout.write('\x1b[0m.\x1b[0m')
 
   try {
-    const res = execSync(`livestorm publish ${env || ''}`).toString()
+    const res = execSync(`livestormdev publish ${env || ''}`).toString()
     if (res.includes('Successfully')) {
       process.stdout.write('\x1b[92m.\x1b[32m')
       console.log('\x1b[0m')

@@ -11,7 +11,9 @@ const ENV_CONFIG_FIELDS = [
 
 function add(envName, data) {
   configStore.set(`envs.${envName}`, ENV_CONFIG_FIELDS.reduce((env, key) => {
-    env[key] = data[key]
+    if (data[key]) {
+      env[key] = data[key]
+    }
     return env
   }, {}))
 }
