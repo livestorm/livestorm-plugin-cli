@@ -36,12 +36,7 @@ module.exports = async function getLivestormConfig(envName) {
        * 
        * @type { LivestormConfig }
        */
-      const retroLivestormConfig = getRetroLivestormConfig(envName)
-  
-      if (retroLivestormConfig) {
-        console.warn('Environments.json is deprecated. Please use livestorm.config.js instead.')
-        return retroLivestormConfig
-      }
+      return getRetroLivestormConfig(envName)
     } else {
       throw 'The livestorm conf file is missing.'
     }
