@@ -47,7 +47,6 @@ module.exports = async function getLivestormConfig(envName) {
   if (envName) {
 
     let envConfig = environments?.[envName]
-
     /**
      * 
      * @type { LivestormConfig }
@@ -78,7 +77,6 @@ module.exports = async function getLivestormConfig(envName) {
 
     if (selectedEnvConf === 'global' || (!envConfig && globalEnvConfig)) {
       envConfig = {
-        ...envConfig,
         ...globalEnvConfig,
       }
     }

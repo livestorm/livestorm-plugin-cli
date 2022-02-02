@@ -20,7 +20,7 @@ module.exports = {
 
         foundEnv.endpoint ||= livestormDomain
 
-        console.log('Environments.json is log. Please use livestorm.config.js instead.')
+        console.log('Environments.json will not longer be maintained soon. Please use livestorm.config.js instead.')
 
         return foundEnv
     }

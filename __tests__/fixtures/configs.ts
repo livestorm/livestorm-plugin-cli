@@ -1,6 +1,6 @@
 const baseConfig = {
-    "name": "fake-plugin",
-    'apiToken': "f2526bba-82b5-11ec-a8a3-0242ac120002",
+    "name": "baseConfigName",
+    'apiToken': "baseConfigApiToken",
     "permissions": {
         "storage": {
             "fake-property": {
@@ -29,19 +29,17 @@ const baseConfig = {
 export default baseConfig
 
 const fromConfigStore = {
-    ...baseConfig,
-    apiToken: undefined,
-    'api-token': baseConfig.apiToken
+    'api-token': "fromConfigStoreApiToken",
+    'endpoint': 'fromConfigStoreEndpoint'
 }
-delete fromConfigStore.apiToken
-delete fromConfigStore.name
 
 const withEnv = {
     ...baseConfig,
     environments: {
        fakeEnv: {
-        'apiToken': "f2526bba-82b5-11ec-a8a3-0242ac120002",
-        'endpoint': 'endpoint.fake'
+        'apiToken': "withEnvEndpointApiToken",
+        'endpoint': 'withEnvEndpoint',
+        'recorded': true
        }
     }
 }
