@@ -15,7 +15,7 @@ module.exports = {
         } else if (json.livestorm[envName]) {
             foundEnv = json.livestorm[envName]
         } else {
-            throw `There is no configuration for the environment ${envName}. Please a conf under the key "${envName}".`
+            throw `The environment '${envName}' has not been found in the environments.json file. We suggest you to create a livestorm.config.js file instead to be able to fully use the new environments manager: https://developers.livestorm.co/docs/managing-environments`
         }
 
         foundEnv.endpoint ||= livestormDomain

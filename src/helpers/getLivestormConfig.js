@@ -82,7 +82,7 @@ module.exports = async function getLivestormConfig(envName) {
     }
 
     if (!envConfig) {
-      throw `There is no configuration for the environment ${envName}. Please a conf under the key "${envName}".`
+      throw `There is no configuration for the environment ${envName}. Please add a conf under the key "${envName}".`
     }
 
     Object.assign(livestormConfig, envConfig)  
