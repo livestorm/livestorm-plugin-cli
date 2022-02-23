@@ -88,7 +88,9 @@ module.exports = async function getLivestormConfig(envName) {
     Object.assign(livestormConfig, envConfig)  
   }
 
-  livestormConfig.endpoint ||= livestormDomain
+  if (!livestormConfig.endpoint) {
+    livestormConfig.endpoint = livestormDomain    
+  }
 
   if (!livestormConfig.name) {
     throw `The name is missing.`
