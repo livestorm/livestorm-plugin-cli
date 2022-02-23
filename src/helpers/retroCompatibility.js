@@ -18,7 +18,9 @@ module.exports = {
             throw `The environment '${envName}' has not been found in the environments.json file. We suggest you to create a livestorm.config.js file instead to be able to fully use the new environments manager: https://developers.livestorm.co/docs/managing-environments`
         }
 
-        foundEnv.endpoint ||= livestormDomain
+        if (!foundEnv.endpoint) {
+            foundEnv.endpoint = livestormDomain   
+        }
 
         console.log('Environments.json will not longer be maintained soon. Please use livestorm.config.js instead.')
 
