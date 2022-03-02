@@ -6,6 +6,7 @@ name: CLI
 on:
   release:
     types: [created]
+  push:
 
 jobs:
   build:
@@ -19,9 +20,21 @@ jobs:
       - run: yarn
       - run: yarn global add @livestorm/cli
 
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+      - run: npm install -g yarn
+      - run: yarn
+      - run: yarn test
+
   publish-npm:
     needs: build
     runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'release' }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2

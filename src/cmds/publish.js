@@ -1,7 +1,7 @@
 const build = require('./build')
 const fetch = require('node-fetch')
 
-const getLivestormPluginInformation = require('../helpers/getLivestormPluginInformation')
+const getLivestormConfig = require('../helpers/getLivestormConfig')
 const setLocalProxyIfNeeded = require('../helpers/setLocalProxyIfNeeded')
 const setLocalHostIfNeeded = require('../helpers/setLocalHostIfNeeded')
 
@@ -41,15 +41,14 @@ function handleNetworkError(err, json) {
   process.exit(1);
 }
 
-module.exports = function publish() {
+module.exports = async function publish() {
   try {
     sendToLivestormAPI(
-      getLivestormPluginInformation(process.argv[3]),
+      await getLivestormConfig(process.argv[3]),
       build()
     )
   } catch(err) {
     console.log('\x1b[31m', err.toString())
-    console.log('\x1b[0m', 'Are you sure directory is a valid Livestorm plugin ?')
     process.exit(1);
   }
 }

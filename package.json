@@ -6,19 +6,34 @@
   "bin": {
     "livestorm": "index.js"
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "",
   "license": "MIT",
+  "scripts": {
+    "test": "jest --silent",
+    "test:watch": "jest --watch --silent",
+    "test:clearCache": "jest --clearCache"
+  },
   "dependencies": {
     "adm-zip": "^0.5.5",
     "cliff": "^0.1.10",
     "command-line-args": "^5.1.1",
+    "configstore": "^5.0.1",
     "debounce": "^1.2.1",
+    "minimist": "^1.2.5",
     "node-fetch": "^2.6.1",
     "node-watch": "^0.7.2",
     "prompts": "^2.4.0",
     "rimraf": "^3.0.2"
+  },
+  "typings": "types/index.d.ts",
+  "devDependencies": {
+    "@babel/core": "^7.16.12",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-typescript": "^7.16.7",
+    "@types/jest": "^27.4.0",
+    "babel-jest": "^27.4.6",
+    "fsify": "^5.0.0",
+    "jest": "^27.4.7",
+    "uuid": "^8.3.2"
   }
 }
