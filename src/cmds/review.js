@@ -10,6 +10,7 @@ const uploadFileOrDirectory = require('../helpers/uploadFileOrDirectory')
 const getLivestormConfig = require('../helpers/getLivestormConfig')
 const livestormDomain = require('../helpers/livestormDomain')
 const validateMetadata = require('../helpers/validateMetadata')
+const upgradeCliVersion = require('./upgrade')
 
 const questions = [
   {
@@ -68,6 +69,7 @@ async function uploadZip(zipFile) {
 }
 
 module.exports = async function review() {
+  upgradeCliVersion()
   try {
     const config = await getLivestormConfig()
     console.log(`Starting review process for '${config.name}'…`)

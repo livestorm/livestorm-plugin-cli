@@ -4,6 +4,7 @@ const fetch = require('node-fetch')
 const getLivestormConfig = require('../helpers/getLivestormConfig')
 const setLocalProxyIfNeeded = require('../helpers/setLocalProxyIfNeeded')
 const setLocalHostIfNeeded = require('../helpers/setLocalHostIfNeeded')
+const upgradeCliVersion = require('./upgrade')
 
 function sendToLivestormAPI(config, fileContent) {
   console.log(`Sending plugin to ${config.endpoint}`)
@@ -42,6 +43,7 @@ function handleNetworkError(err, json) {
 }
 
 module.exports = async function publish() {
+  upgradeCliVersion()
   try {
     sendToLivestormAPI(
       await getLivestormConfig(process.argv[3]),

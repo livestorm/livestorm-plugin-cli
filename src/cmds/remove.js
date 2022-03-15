@@ -5,8 +5,10 @@ const prompts = require('prompts')
 const setLocalProxyIfNeeded = require('../helpers/setLocalProxyIfNeeded')
 const setLocalHostIfNeeded = require('../helpers/setLocalHostIfNeeded')
 const getLivestormConfig = require('../helpers/getLivestormConfig')
+const upgradeCliVersion = require('./upgrade')
 
 module.exports = async function remove() {
+  upgradeCliVersion()
   const config = await getLivestormConfig(env)
 
   if (!config.name) return console.log('The specified environnement does not have a name.')

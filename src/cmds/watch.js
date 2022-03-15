@@ -2,6 +2,7 @@ const { execSync } = require('child_process')
 const nodeWatch = require('node-watch');
 const debounce = require('debounce')
 const env = process.argv[3]
+const upgradeCliVersion = require('./upgrade')
 
 function updatePlugin(evt, name) {
   console.log('Updating plugin');
@@ -22,6 +23,7 @@ function updatePlugin(evt, name) {
 }
 
 module.exports = function watch() {
+  upgradeCliVersion()
   console.log(`${env ? `Will publish to ${env}, ` : ''}waiting for file change...`)
 
   nodeWatch('./', { 
