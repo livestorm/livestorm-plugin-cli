@@ -8,6 +8,7 @@ const asset = require('./asset')
 const help = require('./help')
 const list = require('./list')
 const envs = require('./envs')
+const upgrade = require('./upgrade')
 
 module.exports = {
   publish,
@@ -20,4 +21,5 @@ module.exports = {
   help,
   list,
   envs,
+  upgrade
 }

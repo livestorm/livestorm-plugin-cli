@@ -23,6 +23,7 @@ _  /____/ /  __ |/ / _  /___  ____/ /_  /   / /_/ /_  _, _/_  /  / /
       ['asset   <file>', 'Upload files and use them in your plugins'],
       ['list [--environment|--api-token]', 'List the published plugins'],
       ['envs [add|remove|list] <environment> [--api-token|--endpoint]', 'Manage your environments'],
+      ['upgrade', 'Upgrade Livestorm Plugins CLI'],
     ], ['blue', 'blue'])
   )
 
