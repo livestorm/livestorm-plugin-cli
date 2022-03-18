@@ -1,6 +1,7 @@
 const { execSync } = require('child_process')
 const { default: fetch } = require('node-fetch')
 const prompts = require('prompts')
+const configStore = require('../helpers/configStore.js')
 
 function compareVersions(current, latest) {
   let currentArr = current.split('.')
@@ -19,22 +20,29 @@ function compareVersions(current, latest) {
   return 0
 }
 
-function checkCurrentVersion() {
+async function checkCurrentVersion() {
   const command = "yarn global list --pattern @livestorm/cli | grep -oP '@livestorm/cli@\K\d+.\d+.\d+'"
   return execSync(command)
 }
 
-function checkLatestVersion() {
+async function checkLatestVersion() {
   const response = await fetch('https://registry.npmjs.org/@livestorm/cli')
   const json = await response.json()
   return json['dist-tags']['latest']
 }
 
-module.exports = () => {
+module.exports = async () => {
   try {
-    const current = checkCurrentVersion()
-    const latest = checkLatestVersion()
-    if (compareVersions(current, latest) !== -1) return false
+    const currentDate = new Date().toISOString().split('T')[0]
+    const latestUpgradeDate = configStore.get('latestUpgradeDate')
+    if (configStore.has('latestUpgradeDate') && currentDate === latestUpgradeDate) return false
+
+    configStore.set('latestUpgradeDate', currentDate)
+
+    const currentVersion = await checkCurrentVersion()
+    const latestVersion = await checkLatestVersion()
+
+    if (compareVersions(currentVersion, latestVersion) !== -1) return false
     
     prompts({
       type: 'text',
@@ -49,8 +57,9 @@ module.exports = () => {
         execSync('yarn global upgrade @livestorm/cli@latest')
         console.log('All done 🙌')
       }
+      return true
     })
   catch (error) {
-
+    return false
   }
 }
