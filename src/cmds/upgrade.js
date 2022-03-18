@@ -59,6 +59,7 @@ module.exports = async () => {
       }
       return true
     })
+  }
   catch (error) {
     return false
   }
