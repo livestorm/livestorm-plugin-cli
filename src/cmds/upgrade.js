@@ -1,25 +1,10 @@
 const { execSync } = require('child_process')
 const { default: fetch } = require('node-fetch')
 const prompts = require('prompts')
+const semverGte = require('semver/functions/gte')
+ 
 const configStore = require('../helpers/configStore.js')
 const version = require('./version')
-
-function compareVersions(current, latest) {
-  let currentArr = current.split('.')
-  let latestArr = latest.split('.')
-  for (let i = 0; i < 3; i++) {
-    let currentNum = Number(currentArr[i])
-    let latestNum = Number(latestArr[i])
-    if (currentNum > latestNum) return 1
-
-    if (latestNum > currentNum) return -1
-
-    if (!isNaN(currentNum) && isNaN(latestNum)) return 1
-
-    if (isNaN(currentNum) && !isNaN(latestNum)) return -1
-  }
-  return 0
-}
 
 function checkCurrentVersion() {
   return version()
@@ -35,14 +20,13 @@ module.exports = async () => {
   try {
     const currentDate = new Date().toISOString().split('T')[0]
     const latestUpgradeDate = configStore.get('latestUpgradeDate')
-    if (configStore.has('latestUpgradeDate') && currentDate === latestUpgradeDate) return false
+    if (currentDate === latestUpgradeDate) return false
 
     configStore.set('latestUpgradeDate', currentDate)
 
     const currentVersion = checkCurrentVersion()
     const latestVersion = await checkLatestVersion()
-
-    if (compareVersions(currentVersion, latestVersion) !== -1) return false
+    if (semverGte(currentVersion, latestVersion)) return false
     
     prompts({
       type: 'text',
@@ -51,7 +35,7 @@ module.exports = async () => {
       validate: value => {
         return (value !== 'no' || value !== 'yes')
       }
-    }).then((answer) => {
+    }).then(answer => {
       if (answer.upgrade === 'yes') {
         console.log('Upgrading @livestorm/cli ...')
         execSync('yarn global upgrade @livestorm/cli@latest')
