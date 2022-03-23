@@ -4,11 +4,7 @@ const prompts = require('prompts')
 const semverGte = require('semver/functions/gte')
  
 const configStore = require('../helpers/configStore.js')
-const version = require('./version')
-
-function checkCurrentVersion() {
-  return version()
-}
+const checkCurrentVersion = require('./version')
 
 async function checkLatestVersion() {
   const response = await fetch('https://registry.npmjs.org/@livestorm/cli')
