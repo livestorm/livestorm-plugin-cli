@@ -16,6 +16,24 @@ async function checkLatestVersion() {
   return json['dist-tags']['latest']
 }
 
+function promptUpgrade() {
+  prompts({
+    type: 'text',
+    name: 'upgrade',
+    message: "We noticed your CLI isn't up to date, do you want to upgrade? (yes/no)",
+    validate: value => {
+      return (value !== 'no' || value !== 'yes')
+    }
+  }).then(answer => {
+    if (answer.upgrade === 'yes') {
+      console.log('Upgrading @livestorm/cli to the latest version ...')
+      execSync('yarn global upgrade @livestorm/cli@latest')
+      console.log('All done 🙌')
+    }
+    return true
+  })
+}
+
 module.exports = async () => {
   try {
     const currentDate = new Date().toISOString().split('T')[0]
@@ -28,21 +46,7 @@ module.exports = async () => {
     const latestVersion = await checkLatestVersion()
     if (semverGte(currentVersion, latestVersion)) return false
     
-    prompts({
-      type: 'text',
-      name: 'upgrade',
-      message: "We noticed your CLI isn't up to date, do you want to upgrade? (yes/no)",
-      validate: value => {
-        return (value !== 'no' || value !== 'yes')
-      }
-    }).then(answer => {
-      if (answer.upgrade === 'yes') {
-        console.log('Upgrading @livestorm/cli ...')
-        execSync('yarn global upgrade @livestorm/cli@latest')
-        console.log('All done 🙌')
-      }
-      return true
-    })
+    promptUpgrade()
   }
   catch (error) {
     return false
