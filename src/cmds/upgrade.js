@@ -42,7 +42,7 @@ module.exports = async () => {
     const latestVersion = await checkLatestVersion()
     if (semverGte(currentVersion, latestVersion)) return false
     
-    promptUpgrade()
+    return promptUpgrade()
   }
   catch (error) {
     return false
