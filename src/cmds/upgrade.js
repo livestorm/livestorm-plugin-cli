@@ -2,6 +2,7 @@ const { execSync } = require('child_process')
 const { default: fetch } = require('node-fetch')
 const prompts = require('prompts')
 const configStore = require('../helpers/configStore.js')
+const version = require('./version')
 
 function compareVersions(current, latest) {
   let currentArr = current.split('.')
@@ -20,9 +21,8 @@ function compareVersions(current, latest) {
   return 0
 }
 
-async function checkCurrentVersion() {
-  const command = "yarn global list --pattern @livestorm/cli | grep -oP '@livestorm/cli@\K\d+.\d+.\d+'"
-  return execSync(command)
+function checkCurrentVersion() {
+  return version()
 }
 
 async function checkLatestVersion() {
@@ -39,7 +39,7 @@ module.exports = async () => {
 
     configStore.set('latestUpgradeDate', currentDate)
 
-    const currentVersion = await checkCurrentVersion()
+    const currentVersion = checkCurrentVersion()
     const latestVersion = await checkLatestVersion()
 
     if (compareVersions(currentVersion, latestVersion) !== -1) return false
