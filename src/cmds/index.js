@@ -9,7 +9,9 @@ const help = require('./help')
 const list = require('./list')
 const envs = require('./envs')
 const upgrade = require('./upgrade')
-const version = function() { console.log(require('./version')()) }
+const version = require('./version').printModuleVersion
+
+upgrade()
 
 module.exports = {
   publish,
