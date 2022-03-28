@@ -8,10 +8,10 @@ const asset = require('./asset')
 const help = require('./help')
 const list = require('./list')
 const envs = require('./envs')
-const upgrade = require('./upgrade')
+const { checkAndUpgradeCliVersion, upgrade } = require('./upgrade')
 const version = require('./version').printModuleVersion
 
-upgrade()
+checkAndUpgradeCliVersion()
 
 module.exports = {
   publish,
