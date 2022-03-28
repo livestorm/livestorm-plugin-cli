@@ -5,10 +5,8 @@ const cliff = require('cliff')
 const getLivestormConfig = require('../helpers/getLivestormConfig')
 const setLocalProxyIfNeeded = require('../helpers/setLocalProxyIfNeeded')
 const setLocalHostIfNeeded = require('../helpers/setLocalHostIfNeeded')
-const upgradeCliVersion = require('./upgrade')
 
 module.exports = async () => {
-  upgradeCliVersion()
   const options = commandLineArgs([
     { name: 'list', defaultOption: true },
     { name: 'environment', alias: 'e', type: String },

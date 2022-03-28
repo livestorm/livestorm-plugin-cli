@@ -5,7 +5,6 @@ const path = require('path')
 const rimraf = require('rimraf')
 
 const defaultMetadata = require('../helpers/defaultMetadata')
-const upgradeCliVersion = require('./upgrade')
 
 const questions = [
   {
@@ -41,7 +40,6 @@ function directoryNameFor(name) {
 
 
 module.exports = () => {
-  upgradeCliVersion()
   prompts(questions).then((answers) => {
     try {
       if (!answers.name || !answers.version) return

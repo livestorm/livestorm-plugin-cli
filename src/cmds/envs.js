@@ -1,6 +1,5 @@
 const cliff = require('cliff')
 const configStore = require('../helpers/configStore.js')
-const upgradeCliVersion = require('./upgrade')
 
 const ENV_CONFIG_FIELDS = [
   'apiToken',
@@ -72,7 +71,6 @@ function list() {
 }
 
 module.exports = function envs(argv) {
-  upgradeCliVersion()
   const { _, ...data } = argv
   const [cmd, envName] = _
 
