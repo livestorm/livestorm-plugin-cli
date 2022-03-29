@@ -14,7 +14,6 @@ async function checkLatestVersion() {
 
 async function checkCandidateForUpgrade() {
   try {
-    configStore.delete('latestUpgradeDate')
     const currentDate = new Date().toISOString().split('T')[0]
     const latestUpgradeDate = configStore.get('latestUpgradeDate')
     if (currentDate === latestUpgradeDate) return false
