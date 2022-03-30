@@ -32,18 +32,17 @@ async function checkCandidateForUpgrade() {
 }
 
 async function promptUpgrade() {
-  prompts({
+  const answer = await prompts({
     type: 'text',
     name: 'upgrade',
     message: "We noticed your CLI isn't up to date, do you want to upgrade? (yes/no)",
     validate: value => {
       return (value !== 'no' || value !== 'yes')
     }
-  }).then(answer => {
-    if (answer.upgrade === 'yes') return true
-
-    return false
   })
+  if (answer.upgrade === 'yes') return true
+
+  return false
 }
 
 async function upgrade() {
