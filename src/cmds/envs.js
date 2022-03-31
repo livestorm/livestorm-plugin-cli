@@ -12,9 +12,10 @@ const ENV_CONFIG_FIELDS = [
 function add(envName, data) {
   if (!envName) {
     return console.log('\x1b[31m', 'The environment name is missing.')
+
   }
 
-  const fileredData = ENV_CONFIG_FIELDS.reduce((env, key) => {
+  const output = ENV_CONFIG_FIELDS.reduce((env, key) => {
     if (key in data) {
       env[key] = data[key]
     }
@@ -22,16 +23,16 @@ function add(envName, data) {
   }, {})
 
   if (data['api-token']) {
-    fileredData.apiToken = data['api-token']
+    output.apiToken = data['api-token']
   }
 
-  const dataIsValid = Object.keys(data).some(key => ENV_CONFIG_FIELDS.includes(key))
+  const outputIsValid = Object.keys(output).some(key => ENV_CONFIG_FIELDS.includes(key))
 
-  if (!dataIsValid) {
+  if (!outputIsValid) {
     return console.log('\x1b[31m', 'The configuration should contain at least one property.')
   }
 
-  configStore.set(`envs.${envName}`, fileredData)
+  configStore.set(`envs.${envName}`, output)
 
   if (configStore.has(`envs.${envName}`)) {
     console.log('\x1b[32m', `The configuration for the environment ${envName} has been added.`)

@@ -3,57 +3,39 @@ import envs from '../../../src/cmds/envs'
 
 import { fromEnvsAddCmd } from '../../fixtures/configs'
 
-jest.mock('configstore');
+const makeOutput = config => {
+    const output = {
+        ...config
+    }
 
+    // @ts-ignore
+    output.apiToken = config['api-token']
+    delete output['api-token']
+
+    return output
+}
+
+jest.mock('configstore');
 const mockedConfigstore = jest.mocked(configStore, true)
 
-describe('Add command', () => {
-    const envName = 'boron'
+it('should call correctly the config store to set an entry', () => {
     const set = mockedConfigstore.mock.instances[0].set as jest.Mock
     envs({
-        _: ['add', envName],
+        _: ['add', 'env1'],
         ...fromEnvsAddCmd
     })
+    expect(set).toHaveBeenCalledTimes(1)
 
-    it('should call correctly the config store to set an entry', () => {
-        expect(set).toHaveBeenCalled()
+    expect(set.mock.calls[0][0]).toBe(`envs.env1`)
+    expect(set.mock.calls[0][1]).toStrictEqual(makeOutput(fromEnvsAddCmd))
 
-        const [ key, config ] = set.mock.calls[0]
+    // With --api-token only
+    envs({
+        _: ['add', 'env2'],
+        'api-token': fromEnvsAddCmd['api-token']
+    })
 
-        expect(key).toBe(`envs.${envName}`)
-
-        const output = {
-            ...fromEnvsAddCmd
-        }
-
-        // @ts-ignore
-        output.apiToken = fromEnvsAddCmd['api-token']
-        delete output['api-token']
-        expect(config).toStrictEqual(output)
-    });
-
-    it('should update correctly an entry in the config store ', () => {
-        const dataTopdate = {
-            ...fromEnvsAddCmd,
-            endpoint: 'https://endpoint.fake'
-        }
-        envs({
-            _: ['add', envName],
-            ...dataTopdate
-        })
-
-        const [ key, config ] = set.mock.calls[1]
-
-        expect(key).toBe(`envs.${envName}`)
-
-        const output = {
-            ...fromEnvsAddCmd,
-            ...dataTopdate
-        }
-
-        // @ts-ignore
-        output.apiToken = fromEnvsAddCmd['api-token']
-        delete output['api-token']
-        expect(config).toStrictEqual(output)
-    });
-})
+    expect(set).toHaveBeenCalledTimes(2)
+    expect(set.mock.calls[1][0]).toBe(`envs.env2`)
+    expect(set.mock.calls[1][1]).toStrictEqual(makeOutput({ 'api-token': fromEnvsAddCmd['api-token'] }))
+});
