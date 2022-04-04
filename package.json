@@ -15,9 +15,10 @@
   },
   "dependencies": {
     "adm-zip": "^0.5.5",
-    "cliff": "^0.1.10",
+    "chalk": "4.1.2",
     "command-line-args": "^5.1.1",
     "configstore": "^5.0.1",
+    "console-table-printer": "^2.11.0",
     "debounce": "^1.2.1",
     "minimist": "^1.2.5",
     "node-fetch": "^2.6.1",

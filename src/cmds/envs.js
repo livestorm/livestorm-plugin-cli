@@ -1,4 +1,5 @@
-const cliff = require('cliff')
+const { Table } = require('console-table-printer')
+const chalk = require('chalk')
 const configStore = require('../helpers/configStore.js')
 
 const ENV_CONFIG_FIELDS = [
@@ -63,11 +64,40 @@ function list() {
     return console.log('There are no stored environments.')
   }
 
-  const rows = [
-    ['name', ...ENV_CONFIG_FIELDS],
-    ...envsKeys.map(envName => [envName, ...ENV_CONFIG_FIELDS.map(key => envs[envName][key] ?? '(Not Set)')])
-  ]
-  console.log(cliff.stringifyRows(rows, ['blue']))
+  const table = new Table({
+    style: {
+      headerTop: {
+        left: '',
+        mid: '',
+        right: '',
+        other: '',
+      },
+      headerBottom: {
+        left: '',
+        mid: '',
+        right: '',
+        other: '',
+      },
+      tableBottom: {
+        left: '',
+        mid: '',
+        right: '',
+        other: '',
+      },
+      vertical: '',
+    },
+    columns: ['name', ...ENV_CONFIG_FIELDS].map(field => {
+      return { 
+        name: field, 
+        title: chalk.blue(field),
+        alignment: 'left'
+      }
+    })    
+  })
+  const rows = envsKeys.map(envName => [envName, ...ENV_CONFIG_FIELDS.map(key => envs[envName][key] ?? '(Not Set)')])
+  
+  table.addRows(rows)
+  table.printTable()
 }
 
 module.exports = function envs(argv) {
