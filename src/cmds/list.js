@@ -55,27 +55,6 @@ function handleResponse(response) {
   }
 
   const table = new Table({
-    style: {
-      headerTop: {
-        left: '',
-        mid: '',
-        right: '',
-        other: '',
-      },
-      headerBottom: {
-        left: '',
-        mid: '',
-        right: '',
-        other: '',
-      },
-      tableBottom: {
-        left: '',
-        mid: '',
-        right: '',
-        other: '',
-      },
-      vertical: '',
-    },
     columns: [
       {
         name: 'id',

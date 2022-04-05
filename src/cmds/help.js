@@ -2,27 +2,6 @@ const { Table } = require('console-table-printer')
 const chalk = require('chalk')
 
 const table = new Table({
-  style: {
-    headerTop: {
-      left: '',
-      mid: '',
-      right: '',
-      other: '',
-    },
-    headerBottom: {
-      left: '',
-      mid: '',
-      right: '',
-      other: '',
-    },
-    tableBottom: {
-      left: '',
-      mid: '',
-      right: '',
-      other: '',
-    },
-    vertical: '',
-  },
   columns: [
     {
       name: 'command',
@@ -61,7 +40,7 @@ _  /____/ /  __ |/ / _  /___  ____/ /_  /   / /_/ /_  _, _/_  /  / /
     { command: 'envs [add|remove|list] <environment> [--api-token|--endpoint]', description: 'Manage your environments' },
   ])
   table.printTable()
-  
+
   console.log('')
   console.log(`Check out our getting started guide: https://developers.livestorm.co/docs/getting-started-with-plugins-sdk`)
   console.log('and our offical video course: https://fast.wistia.net/embed/channel/azooxwj070')
