@@ -20,6 +20,7 @@
     "configstore": "^5.0.1",
     "console-table-printer": "^2.11.0",
     "debounce": "^1.2.1",
+    "lodash": "^4.17.21",
     "minimist": "^1.2.5",
     "node-fetch": "^2.6.1",
     "node-watch": "^0.7.2",
