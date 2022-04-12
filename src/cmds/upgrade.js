@@ -45,7 +45,7 @@ async function promptUpgrade() {
   return false
 }
 
-async function upgrade() {
+function upgrade() {
   console.log('Upgrading @livestorm/cli to the latest version ...')
   execSync('yarn global upgrade @livestorm/cli@latest')
   console.log('All done 🙌')
@@ -55,9 +55,7 @@ async function checkAndUpgradeCliVersion() {
   const isCandidateForUpgrade = await checkCandidateForUpgrade()
   if (isCandidateForUpgrade) {
     const yes = await promptUpgrade()
-    if (yes) {
-      await upgrade()
-    }
+    if (yes) upgrade()
   }
 }
 
