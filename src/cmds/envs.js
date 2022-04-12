@@ -76,8 +76,7 @@ function list() {
     })    
   })
   const rowArrays = envsKeys.map(envName => [envName, ...ENV_CONFIG_FIELDS.map(key => envs[envName][key] ?? '(Not Set)')])
-  const rows = zibObject(headers, rowArrays)
-
+  const rows = rowArrays.map(row => zibObject(headers, row))
   table.addRows(rows)
   table.printTable()
 }
