@@ -1,6 +1,6 @@
 {
   "name": "@livestorm/cli",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "CLI that allows you to build and deploy your Livestorm plugin",
   "main": "index.js",
   "bin": {
@@ -23,7 +23,8 @@
     "node-fetch": "^2.6.1",
     "node-watch": "^0.7.2",
     "prompts": "^2.4.0",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "semver": "^7.3.5"
   },
   "typings": "types/index.d.ts",
   "devDependencies": {

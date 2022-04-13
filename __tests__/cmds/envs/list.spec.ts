@@ -1,7 +1,7 @@
 import configStore from 'configstore'
 import envs from '../../../src/cmds/envs'
 
-jest.mock('configstore');
+jest.mock('configstore')
 
 const mockedConfigstore = jest.mocked(configStore, true)
 

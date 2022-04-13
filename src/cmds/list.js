@@ -1,10 +1,10 @@
 const { default: fetch } = require('node-fetch')
 const commandLineArgs = require('command-line-args')
+const cliff = require('cliff')
+
 const getLivestormConfig = require('../helpers/getLivestormConfig')
 const setLocalProxyIfNeeded = require('../helpers/setLocalProxyIfNeeded')
 const setLocalHostIfNeeded = require('../helpers/setLocalHostIfNeeded')
-const cliff = require('cliff')
-
 
 module.exports = async () => {
   const options = commandLineArgs([
