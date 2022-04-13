@@ -38,6 +38,8 @@ _  /____/ /  __ |/ / _  /___  ____/ /_  /   / /_/ /_  _, _/_  /  / /
     { command: 'asset   <file>', description: 'Upload files and use them in your plugins' },
     { command: 'list [--environment|--api-token]', description: 'List the published plugins' },
     { command: 'envs [add|remove|list] <environment> [--api-token|--endpoint]', description: 'Manage your environments' },
+    { command: 'upgrade', description: 'Upgrade Livestorm Plugins CLI' },
+    { command: 'version', description: 'Output the current version of the CLI' },
   ])
   table.printTable()
 
