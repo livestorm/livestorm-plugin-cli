@@ -45,9 +45,45 @@ async function promptUpgrade() {
   return false
 }
 
-function upgrade() {
+async function selectPackageManager() {
+  const answer = await prompts({
+    type: 'select',
+    name: 'packageManager',
+    message: 'Select your package manager',
+    choices: [
+      { title: 'Yarn V1', value: 'yarn-v1' },
+      { title: 'NPM', value: 'npm' },
+      { title: 'pnpm', value: 'pnpm' },
+      { title: 'Yarn V2', value: 'yarn-v2' },
+    ],
+    initial: 1
+  })
+  return answer.packageManager
+}
+
+async function upgrade() {
+  const packageManager = await selectPackageManager()
   console.log('Upgrading @livestorm/cli to the latest version ...')
-  execSync('yarn global upgrade @livestorm/cli@latest')
+
+  switch (packageManager) {
+    case 'yarn-v1':
+      execSync('yarn global upgrade @livestorm/cli@latest')
+      break
+    case 'npm':
+      execSync('npm update -g @livestorm/cli')
+      break
+    case 'pnpm':
+      execSync('pnpm uninstall -g @livestorm/cli && pnpm install -g @livestorm/cli@latest')
+      break
+    case 'yarn-v2':
+      console.log('Yarn V2 does not support global packages')
+      console.log('Check this link for more info:')
+      console.log('https://yarnpkg.com/getting-started/migration#use-yarn-dlx-instead-of-yarn-global')
+      break
+    default:
+      throw 'Unknown package manager'
+  }
+
   console.log('All done 🙌')
 }
 
@@ -55,7 +91,7 @@ async function checkAndUpgradeCliVersion() {
   const isCandidateForUpgrade = await checkCandidateForUpgrade()
   if (isCandidateForUpgrade) {
     const yes = await promptUpgrade()
-    if (yes) upgrade()
+    if (yes) await upgrade()
   }
 }
 
