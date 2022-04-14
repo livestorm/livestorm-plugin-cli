@@ -1,6 +1,7 @@
 const { default: fetch } = require('node-fetch')
 const commandLineArgs = require('command-line-args')
-const cliff = require('cliff')
+const { Table } = require('console-table-printer')
+const chalk = require('chalk')
 
 const getLivestormConfig = require('../helpers/getLivestormConfig')
 const setLocalProxyIfNeeded = require('../helpers/setLocalProxyIfNeeded')
@@ -53,10 +54,22 @@ function handleResponse(response) {
     return console.log('No plugins found on this organization.')
   }
 
+  const table = new Table({
+    columns: [
+      {
+        name: 'id',
+        title: chalk.blue('ID'), 
+        alignment: 'left'
+      },
+      {
+        name: 'name',
+        title: chalk.blue('Name'),
+        alignment: 'left' 
+      }
+    ]
+  })
 
-  const rows = [
-    ['ID', 'Name'],
-    ...response.plugins.map((plugin) => [plugin.id, plugin.name])
-  ]
-  console.log(cliff.stringifyRows(rows, ['blue', 'blue']))
+  const rows = response.plugins.map((plugin) => ({ id: plugin.id, name: plugin.name }))
+  table.addRows(rows)
+  table.printTable()
 }

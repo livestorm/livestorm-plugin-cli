@@ -1,4 +1,6 @@
-const cliff = require('cliff')
+const { Table } = require('console-table-printer')
+const chalk = require('chalk')
+const zibObject = require('lodash/zipObject')
 const configStore = require('../helpers/configStore.js')
 
 const ENV_CONFIG_FIELDS = [
@@ -63,11 +65,20 @@ function list() {
     return console.log('There are no stored environments.')
   }
 
-  const rows = [
-    ['name', ...ENV_CONFIG_FIELDS],
-    ...envsKeys.map(envName => [envName, ...ENV_CONFIG_FIELDS.map(key => envs[envName][key] ?? '(Not Set)')])
-  ]
-  console.log(cliff.stringifyRows(rows, ['blue']))
+  const headers = ['name', ...ENV_CONFIG_FIELDS]
+  const table = new Table({
+    columns: headers.map(field => {
+      return { 
+        name: field, 
+        title: chalk.blue(field),
+        alignment: 'left'
+      }
+    })    
+  })
+  const rowArrays = envsKeys.map(envName => [envName, ...ENV_CONFIG_FIELDS.map(key => envs[envName][key] ?? '(Not Set)')])
+  const rows = rowArrays.map(row => zibObject(headers, row))
+  table.addRows(rows)
+  table.printTable()
 }
 
 module.exports = function envs(argv) {
