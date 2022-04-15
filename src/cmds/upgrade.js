@@ -47,8 +47,7 @@ async function promptUpgrade() {
 
 function upgrade() {
   console.log('Upgrading @livestorm/cli to the latest version ...')
-  execSync('yarn global upgrade @livestorm/cli@latest')
-  console.log('All done 🙌')
+  execSync('yarn global upgrade @livestorm/cli@latest', { stdio: 'inherit' })
 }
 
 async function checkAndUpgradeCliVersion() {
