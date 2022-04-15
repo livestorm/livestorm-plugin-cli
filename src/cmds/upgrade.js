@@ -1,16 +1,9 @@
 const { execSync } = require('child_process')
-const { default: fetch } = require('node-fetch')
 const prompts = require('prompts')
 const semverGte = require('semver/functions/gte')
  
 const configStore = require('../helpers/configStore.js')
-const checkCurrentVersion = require('./version').getModuleVersion
-
-async function checkLatestVersion() {
-  const response = await fetch('https://registry.npmjs.org/@livestorm/cli')
-  const json = await response.json()
-  return json['dist-tags']['latest']
-}
+const { checkCurrentVersion, checkLatestVersion } = require('./version')
 
 async function checkCandidateForUpgrade() {
   try {
