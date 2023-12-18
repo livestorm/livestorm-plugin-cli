@@ -1,4 +1,4 @@
-🚧 The repository has been archived as plugins are currently being deprecated. Kindly reach out to [support@livestorm.co](mailto:support@livestorm.co) in case of any questions in regards to this.
+> 🚧 The repository has been archived as plugins are currently being deprecated. Kindly reach out to [support@livestorm.co](mailto:support@livestorm.co) in case of any questions in regards to this.
 
 <img src="https://raw.githubusercontent.com/livestorm/livestorm-plugin-cli/master/src/assets/sdk-header.png" width="500px">
 
